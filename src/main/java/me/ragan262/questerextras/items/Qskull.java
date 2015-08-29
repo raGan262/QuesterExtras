@@ -52,7 +52,7 @@ public class Qskull extends Qitem {
 	void copyValues(Qitem item) {
 		super.copyValues(item);
 		if(item instanceof Qskull) {
-			Qskull skull = (Qskull) item;
+			Qskull skull = (Qskull)item;
 			skull.setName(owner);
 		}
 	}
@@ -61,7 +61,7 @@ public class Qskull extends Qitem {
 	public ItemStack getItemStack() {
 		ItemStack is = super.getItemStack();
 		if(isSkull()) {
-			SkullMeta sm = (SkullMeta) is.getItemMeta();
+			SkullMeta sm = (SkullMeta)is.getItemMeta();
 			if(!owner.isEmpty()) {
 				sm.setOwner(owner);
 			}

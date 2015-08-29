@@ -31,10 +31,11 @@ public class MobCommands {
 	public void list(QuesterCommandContext context, CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "Mob list:");
 		int size = mobs.size();
-		for(int i=0; i<size; i++) {
+		for(int i = 0; i < size; i++) {
 			sender.sendMessage("[" + i + "] " + mobs.getMobString(i));
 		}
 	}
+
 	@CommandLabels({"info"})
 	@Command(
 			desc = "mob info",
@@ -45,7 +46,7 @@ public class MobCommands {
 		try {
 			sender.sendMessage(mobs.getMob(context.getInt(0)).getInfo(""));
 		}
-		catch (IllegalArgumentException e) {
+		catch(IllegalArgumentException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		}
 	}
@@ -60,7 +61,7 @@ public class MobCommands {
 		try {
 			mob.setType(SerUtils.parseEntity(context.getString(0)));
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			sender.sendMessage(ChatColor.RED + "Invalid mob");
 			return;
 		}
@@ -68,7 +69,7 @@ public class MobCommands {
 			mob.setName(context.getString(1));
 		}
 		if(mobs.addMob(mob)) {
-			sender.sendMessage(ChatColor.GREEN + "Mob created. (ID " + (mobs.size()-1) + ")");
+			sender.sendMessage(ChatColor.GREEN + "Mob created. (ID " + (mobs.size() - 1) + ")");
 		}
 		else {
 			sender.sendMessage(ChatColor.RED + "Failed to create a mob. (this should never happen)");
@@ -99,7 +100,7 @@ public class MobCommands {
 				sender.sendMessage(ChatColor.RED + "Failed to spawn a mob. (for some reason)");
 			}
 		}
-		catch (IllegalArgumentException e) {
+		catch(IllegalArgumentException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		}
 	}
@@ -117,7 +118,7 @@ public class MobCommands {
 				throw new IllegalArgumentException();
 			}
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			sender.sendMessage(ChatColor.RED + "Invalid mob.");
 		}
 		sender.sendMessage(ChatColor.GREEN + "Mob type set.");
@@ -150,7 +151,8 @@ public class MobCommands {
 			min = 1,
 			max = 2,
 			usage = "<mob ID> [health]")
-	public void health(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void health(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qmob mob = mobs.getMob(context.getInt(0));
 		int health = 0;
 		if(context.length() > 1) {
@@ -175,7 +177,7 @@ public class MobCommands {
 		StringBuilder errors = new StringBuilder();
 		boolean success = false;
 		Slot slot = null;
-		for(int i=1; i<context.length(); i++) {
+		for(int i = 1; i < context.length(); i++) {
 			try {
 				slot = getSlot(context.getString(i));
 				if(!mob.setItem(slot.id, slot.item)) {
@@ -184,7 +186,7 @@ public class MobCommands {
 				mob.setChance(slot.id, slot.chance);
 				success = true;
 			}
-			catch (Exception e) {
+			catch(Exception e) {
 				errors.append(", ").append(context.getString(i));
 			}
 		}
@@ -194,12 +196,6 @@ public class MobCommands {
 		if(!errors.toString().isEmpty()) {
 			sender.sendMessage(ChatColor.RED + "Could not resolve following arguments: " + errors.substring(2));
 		}
-	}
-	
-	private class Slot {
-		int id = -1;
-		Qitem item = null;
-		float chance = 0F;
 	}
 	
 	private Slot getSlot(String arg) {
@@ -225,12 +221,14 @@ public class MobCommands {
 				slot.id = Integer.parseInt(ss[0]);
 			}
 		}
-		catch (Exception ignore) {}
+		catch(Exception ignore) {
+		}
 		if(ss.length > 1) {
 			try {
 				slot.item = items.getItem(Integer.parseInt(ss[1]));
 			}
-			catch (Exception ignore) {}
+			catch(Exception ignore) {
+			}
 			if(ss.length > 2) {
 				try {
 					int raw = Integer.parseInt(ss[2]);
@@ -243,7 +241,8 @@ public class MobCommands {
 						slot.chance = raw / 100F;
 					}
 				}
-				catch (Exception ignore) {}
+				catch(Exception ignore) {
+				}
 			}
 		}
 		return slot;
@@ -254,12 +253,13 @@ public class MobCommands {
 			desc = "changes potion effects",
 			min = 2,
 			usage = "<mob ID> {<effect>}...")
-	public void effect(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void effect(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qmob mob = mobs.getMob(context.getInt(0));
 		StringBuilder errors = new StringBuilder();
 		boolean success = false;
 		PotionEffect eff = null;
-		for(int i=1; i<context.length(); i++) {
+		for(int i = 1; i < context.length(); i++) {
 			if(context.getString(i).charAt(0) == '!') {
 				String s = context.getString(i).substring(1);
 				eff = ItemCommands.getEffect(s);
@@ -288,5 +288,11 @@ public class MobCommands {
 		if(!errors.toString().isEmpty()) {
 			sender.sendMessage(ChatColor.RED + "Could not resolve following effects: " + errors.substring(2));
 		}
+	}
+	
+	private class Slot {
+		int id = -1;
+		Qitem item = null;
+		float chance = 0F;
 	}
 }

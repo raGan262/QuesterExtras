@@ -18,7 +18,6 @@ public class LoreCommands {
 		items = plugin.items;
 	}
 
-	
 	@CommandLabels({"add", "a"})
 	@Command(
 			desc = "adds lore line",
@@ -41,7 +40,8 @@ public class LoreCommands {
 			min = 2,
 			max = 2,
 			usage = "<item ID> <line|all>")
-	public void remove(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void remove(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		boolean status = true;
 		if(context.getString(1).equalsIgnoreCase("ALL")) {

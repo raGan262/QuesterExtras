@@ -41,8 +41,21 @@ public class XmythicKillObjective extends Objective {
 		return mobString + "; AMT: " + amount;
 	}
 	
+	@Override
+	protected void save(StorageKey key) {
+		key.setString("mobs", mobString);
+		if(amount > 1) {
+			key.setInt("amount", amount);
+		}
+	}
+	
+	public boolean checkMob(String mob) {
+		return mobs.contains(mob);
+	}
+	
 	@Command(min = 1, max = 2, usage = "<mobs> [amount]")
-	public static Objective fromCommand(final QuesterCommandContext context) throws CommandException {
+	public static Objective fromCommand(final QuesterCommandContext context)
+			throws CommandException {
 		List<String> mobs = new ArrayList<String>();
 		for(String mob : context.getString(0).split(",")) {
 			mobs.add(mob);
@@ -55,14 +68,6 @@ public class XmythicKillObjective extends Objective {
 			}
 		}
 		return new XmythicKillObjective(mobs, amount);
-	}
-	
-	@Override
-	protected void save(StorageKey key) {
-		key.setString("mobs", mobString);
-		if(amount > 1) {
-			key.setInt("amount", amount);
-		}
 	}
 	
 	protected static Objective load(final StorageKey key) {
@@ -80,9 +85,4 @@ public class XmythicKillObjective extends Objective {
 		}
 		return new XmythicKillObjective(mobs, amt);
 	}
-	
-	public boolean checkMob(String mob) {
-		return mobs.contains(mob);
-	}
-	
 }

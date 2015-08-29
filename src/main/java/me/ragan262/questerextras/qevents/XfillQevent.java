@@ -6,10 +6,8 @@ import me.ragan262.quester.commandmanager.annotations.Command;
 import me.ragan262.quester.commandmanager.exceptions.CommandException;
 import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.elements.Qevent;
-import me.ragan262.quester.exceptions.QeventException;
 import me.ragan262.quester.exceptions.QuesterException;
 import me.ragan262.quester.storage.StorageKey;
-import me.ragan262.quester.utils.Ql;
 import me.ragan262.quester.utils.SerUtils;
 import me.ragan262.questerextras.QrExtras;
 import me.ragan262.questerextras.items.Qitem;
@@ -53,11 +51,21 @@ public final class XfillQevent extends Qevent {
 		giveItem(item, ih.getInventory(), item.getAmount(), null);
 	}
 	
+	@Override
+	protected void save(final StorageKey key) {
+		key.removeKey("item");
+		item.serializeKey(key.getSubKey("item"));
+		if(location != null) {
+			key.setString("container", SerUtils.serializeLocString(location));
+		}
+	}
+	
 	@Command(min = 2, max = 3, usage = "<item ID in list> <container location> [amount]")
-	public static Qevent fromCommand(final QuesterCommandContext context) throws QuesterException, CommandException {
+	public static Qevent fromCommand(final QuesterCommandContext context)
+			throws QuesterException, CommandException {
 		final Qitem item = QrExtras.plugin.items.getItem(context.getInt(0)).getCopy();
 		Location loc = SerUtils.getLoc(context.getPlayer(), context.getString(1),
-									context.getSenderLang());
+				context.getSenderLang());
 		if(XfillQevent.getInventoryHolder(loc) == null) {
 			throw new CommandException("Invalid container location.");
 		}
@@ -66,17 +74,8 @@ public final class XfillQevent extends Qevent {
 				item.setAmount(context.getInt(2));
 			}
 		}
-		
+
 		return new XfillQevent(item, loc);
-	}
-	
-	@Override
-	protected void save(final StorageKey key) {
-		key.removeKey("item");
-		item.serializeKey(key.getSubKey("item"));
-		if(location != null) {
-			key.setString("container", SerUtils.serializeLocString(location));
-		}
 	}
 	
 	protected static Qevent load(final StorageKey key) {
@@ -98,7 +97,8 @@ public final class XfillQevent extends Qevent {
 		return new XfillQevent(item, loc);
 	}
 	
-	public static void giveItem(final Qitem item, final Inventory inv, final int amount, final Location dropAt) {
+	public static void giveItem(final Qitem item, final Inventory inv, final int amount,
+			final Location dropAt) {
 		final ItemStack is = item.getItemStack();
 		final int maxSize = item.getMaterial().getMaxStackSize();
 		int toGive = amount;
@@ -115,7 +115,7 @@ public final class XfillQevent extends Qevent {
 		}
 		given = Math.min(toGive, numSpaces);
 		toGive -= given;
-		numSpaces = (int) Math.ceil((double) given / (double) maxSize);
+		numSpaces = (int)Math.ceil((double)given / (double)maxSize);
 		int round;
 		for(int k = 0; k < numSpaces; k++) {
 			round = Math.min(maxSize, given);
@@ -126,7 +126,7 @@ public final class XfillQevent extends Qevent {
 		
 		if(toGive > 0) {
 			if(dropAt != null) {
-				numSpaces = (int) Math.ceil((double) toGive / (double) maxSize);
+				numSpaces = (int)Math.ceil((double)toGive / (double)maxSize);
 				for(int k = 0; k < numSpaces; k++) {
 					given = Math.min(toGive, maxSize);
 					is.setAmount(given);
@@ -148,7 +148,7 @@ public final class XfillQevent extends Qevent {
 		}
 		final BlockState bs = loc.getBlock().getState();
 		if(bs instanceof InventoryHolder) {
-			return (InventoryHolder) bs;
+			return (InventoryHolder)bs;
 		}
 		return null;
 	}

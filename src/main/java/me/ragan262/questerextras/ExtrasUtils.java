@@ -14,9 +14,9 @@ public class ExtrasUtils {
 	public static boolean isDonatorItem(ItemStack item) {
 		try {
 			List<String> lore = item.getItemMeta().getLore();
-			return ChatColor.stripColor(lore.get(lore.size()-1)).equalsIgnoreCase("Donator Item");
+			return ChatColor.stripColor(lore.get(lore.size() - 1)).equalsIgnoreCase("Donator Item");
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}

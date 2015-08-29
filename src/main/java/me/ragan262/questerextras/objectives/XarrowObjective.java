@@ -21,10 +21,10 @@ public class XarrowObjective extends Objective {
 	private final int range;
 	
 	public XarrowObjective(final int amt, final Material mat, final int dat, final Location loc,
-						   final int rng) {
+			final int rng) {
 		amount = amt;
 		material = mat;
-		data = (byte) dat;
+		data = (byte)dat;
 		location = loc;
 		range = rng;
 	}
@@ -48,11 +48,45 @@ public class XarrowObjective extends Objective {
 				+ "with an arrow - " + (amount - progress) + "x.";
 	}
 	
+	@Override
+	protected void save(final StorageKey key) {
+		key.setString("block", SerUtils.serializeItem(material, data));
+		if(amount > 1) {
+			key.setInt("amount", amount);
+		}
+		if(location != null) {
+			key.setString("location", SerUtils.serializeLocString(location));
+			if(range > 0) {
+				key.setInt("range", range);
+			}
+		}
+	}
+	
+	public boolean checkBlock(final Block block) {
+		if(block.getType() != material) {
+			return false;
+		}
+		if(data >= 0 && data != block.getData()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean checkLocation(final Location loc) {
+		if(location != null && loc != null) {
+			return location.distanceSquared(loc) <= range * range;
+		}
+		return true;
+	}
+	
+	// Custom methods
+	
 	@Command(min = 1, max = 4, usage = "{<block>} [amount] {[location]} [range]")
-	public static Objective fromCommand(final QuesterCommandContext context) throws CommandException {
+	public static Objective fromCommand(final QuesterCommandContext context)
+			throws CommandException {
 		final int[] itm = SerUtils.parseItem(context.getString(0));
 		final Material mat = Material.getMaterial(itm[0]);
-		final byte dat = (byte) itm[1];
+		final byte dat = (byte)itm[1];
 		if(mat.getId() > 255) {
 			throw new CommandException(context.getSenderLang().get("ERROR_CMD_BLOCK_UNKNOWN"));
 		}
@@ -78,20 +112,6 @@ public class XarrowObjective extends Objective {
 		return new XarrowObjective(amt, mat, dat, loc, rng);
 	}
 	
-	@Override
-	protected void save(final StorageKey key) {
-		key.setString("block", SerUtils.serializeItem(material, data));
-		if(amount > 1) {
-			key.setInt("amount", amount);
-		}
-		if(location != null) {
-			key.setString("location", SerUtils.serializeLocString(location));
-			if(range > 0) {
-				key.setInt("range", range);
-			}
-		}
-	}
-	
 	protected static Objective load(final StorageKey key) {
 		Location loc = null;
 		int rng = 0;
@@ -102,7 +122,7 @@ public class XarrowObjective extends Objective {
 			mat = Material.getMaterial(itm[0]);
 			dat = itm[1];
 		}
-		catch (final IllegalArgumentException e) {
+		catch(final IllegalArgumentException e) {
 			return null;
 		}
 		amt = key.getInt("amount", 1);
@@ -115,24 +135,5 @@ public class XarrowObjective extends Objective {
 			rng = 0;
 		}
 		return new XarrowObjective(amt, mat, dat, loc, rng);
-	}
-	
-	// Custom methods
-	
-	public boolean checkBlock(final Block block) {
-		if(block.getType() != material) {
-			return false;
-		}
-		if(data >= 0 && data != block.getData()) {
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean checkLocation(final Location loc) {
-		if(location != null && loc != null) {
-			return location.distanceSquared(loc) <= range * range;
-		}
-		return true;
 	}
 }

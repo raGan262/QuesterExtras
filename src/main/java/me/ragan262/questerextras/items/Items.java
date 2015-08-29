@@ -19,7 +19,7 @@ public class Items {
 		try {
 			return items.get(id);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			throw new CustomException("No such item.");
 		}
 	}
@@ -29,7 +29,7 @@ public class Items {
 			Qitem item = items.get(id);
 			return item.getType() + " " + item.getName();
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return "No such item.";
 		}
 	}
@@ -47,14 +47,14 @@ public class Items {
 			items.remove(ID);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
 	
 	public void save(StorageKey key) {
 		key.removeKey("");
-		for(int i=0; i<items.size(); i++) {
+		for(int i = 0; i < items.size(); i++) {
 			items.get(i).serializeKey(key.getSubKey(String.valueOf(i)));
 		}
 	}

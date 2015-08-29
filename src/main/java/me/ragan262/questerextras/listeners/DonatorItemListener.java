@@ -2,8 +2,6 @@ package me.ragan262.questerextras.listeners;
 
 import me.ragan262.quester.utils.Util;
 import me.ragan262.questerextras.ExtrasUtils;
-import me.ragan262.questerextras.QrExtras;
-import me.ragan262.questerextras.items.QuestLog;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +24,8 @@ public class DonatorItemListener implements Listener {
 	private final Map<String, ItemStack[]> items = new HashMap<String, ItemStack[]>();
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onAction(final InventoryClickEvent event) {if(ExtrasUtils.isDonatorItem(event.getCurrentItem())) {
+	public void onAction(final InventoryClickEvent event) {
+		if(ExtrasUtils.isDonatorItem(event.getCurrentItem())) {
 			if(!event.isShiftClick() || !(event.getInventory().getType().equals(InventoryType.CRAFTING))) {
 				event.setCancelled(true);
 			}

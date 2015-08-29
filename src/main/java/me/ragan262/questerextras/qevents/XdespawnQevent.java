@@ -59,33 +59,6 @@ public final class XdespawnQevent extends Qevent {
 		}
 	}
 	
-	@Command(min = 2, max = 3, usage = "{<location1>} {<location2>} {[entity]}")
-	public static Qevent fromCommand(final QuesterCommandContext context) throws CommandException {
-		EntityType ent = null;
-		Location loc1 = null;
-		Location loc2 = null;
-		try {
-			loc1 = SerUtils.getLoc(context.getPlayer(), context.getString(0));
-			loc2 = SerUtils.getLoc(context.getPlayer(), context.getString(1));
-			if(loc1.getWorld().getUID() != loc2.getWorld().getUID()) {
-				throw new IllegalArgumentException("Worlds are not the same.");
-			}
-		}
-		catch (final IllegalArgumentException e) {
-			throw new CommandException(e.getMessage());
-		}
-		if(context.length() > 2) {
-			try {
-				ent = SerUtils.parseEntity(context.getString(2));
-			}
-			catch (final Exception e) {
-				throw new CommandException("Could not resolve entity " + context.getString(2)
-						+ ".");
-			}
-		}
-		return new XdespawnQevent(ent, loc1, loc2);
-	}
-	
 	@Override
 	protected void save(final StorageKey key) {
 		if(entity != null) {
@@ -93,25 +66,6 @@ public final class XdespawnQevent extends Qevent {
 		}
 		key.setString("minlocation", SerUtils.serializeLocString(min));
 		key.setString("maxlocation", SerUtils.serializeLocString(max));
-	}
-	
-	protected static Qevent load(final StorageKey key) {
-		EntityType ent = null;
-		Location min = null;
-		Location max = null;
-		try {
-			min = SerUtils.deserializeLocString(key.getString("minlocation", ""));
-			max = SerUtils.deserializeLocString(key.getString("maxlocation", ""));
-			try {
-				ent = SerUtils.parseEntity(key.getString("entity", ""));
-			}
-			catch (final Exception ignore) {}
-		}
-		catch (final Exception e) {
-			return null;
-		}
-		
-		return new XdespawnQevent(ent, min, max);
 	}
 	
 	private boolean isInside(final Entity e) {
@@ -124,5 +78,52 @@ public final class XdespawnQevent extends Qevent {
 					&& l.getY() <= max.getY() && min.getZ() <= l.getZ() && l.getZ() <= max.getZ();
 		}
 		return false;
+	}
+	
+	@Command(min = 2, max = 3, usage = "{<location1>} {<location2>} {[entity]}")
+	public static Qevent fromCommand(final QuesterCommandContext context) throws CommandException {
+		EntityType ent = null;
+		Location loc1 = null;
+		Location loc2 = null;
+		try {
+			loc1 = SerUtils.getLoc(context.getPlayer(), context.getString(0));
+			loc2 = SerUtils.getLoc(context.getPlayer(), context.getString(1));
+			if(loc1.getWorld().getUID() != loc2.getWorld().getUID()) {
+				throw new IllegalArgumentException("Worlds are not the same.");
+			}
+		}
+		catch(final IllegalArgumentException e) {
+			throw new CommandException(e.getMessage());
+		}
+		if(context.length() > 2) {
+			try {
+				ent = SerUtils.parseEntity(context.getString(2));
+			}
+			catch(final Exception e) {
+				throw new CommandException("Could not resolve entity " + context.getString(2)
+						+ ".");
+			}
+		}
+		return new XdespawnQevent(ent, loc1, loc2);
+	}
+	
+	protected static Qevent load(final StorageKey key) {
+		EntityType ent = null;
+		Location min = null;
+		Location max = null;
+		try {
+			min = SerUtils.deserializeLocString(key.getString("minlocation", ""));
+			max = SerUtils.deserializeLocString(key.getString("maxlocation", ""));
+			try {
+				ent = SerUtils.parseEntity(key.getString("entity", ""));
+			}
+			catch(final Exception ignore) {
+			}
+		}
+		catch(final Exception e) {
+			return null;
+		}
+
+		return new XdespawnQevent(ent, min, max);
 	}
 }

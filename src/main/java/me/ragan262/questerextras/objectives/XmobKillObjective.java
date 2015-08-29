@@ -27,7 +27,8 @@ public final class XmobKillObjective extends Objective {
 	private final Location location;
 	private final int range;
 	
-	private XmobKillObjective(final Qmob mob, final int amt, final Location loc, final int rng) throws QuesterException {
+	private XmobKillObjective(final Qmob mob, final int amt, final Location loc, final int rng)
+			throws QuesterException {
 		this.mob = mob;
 		if(mob == null) {
 			throw new ObjectiveException("Mob can't be null.");
@@ -54,24 +55,6 @@ public final class XmobKillObjective extends Objective {
 		return amount + "\n  " + mob.getInfo("  ");
 	}
 	
-	@Command(min = 2, max = 4, usage = "<mob ID> <amount> {[location]} [range]")
-	public static Objective fromCommand(final QuesterCommandContext context) throws CommandException, QuesterException {
-		final Qmob mob = QrExtras.plugin.mobs.getMob(context.getInt(0)).getCopy();
-		final int amt = context.getInt(1);
-		Location loc = null;
-		int rng = 5;
-		if(context.length() > 2) {
-			loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
-			if(context.length() > 3) {
-				rng = context.getInt(3);
-				if(rng < 1) {
-					throw new CommandException("Invalid range.");
-				}
-			}
-		}
-		return new XmobKillObjective(mob, amt, loc, rng);
-	}
-	
 	@Override
 	protected void save(final StorageKey key) {
 		if(amount != 1) {
@@ -84,34 +67,6 @@ public final class XmobKillObjective extends Objective {
 		}
 	}
 	
-	protected static Objective load(final StorageKey key) {
-		int rng = 0, amt = 1;
-		Qmob mob = null;
-		Location loc = null;
-		try {
-			loc = SerUtils.deserializeLocString(key.getString("location", ""));
-			rng = key.getInt("range", 5);
-			if(rng < 1) {
-				rng = 5;
-			}
-			amt = key.getInt("amount", 1);
-			if(amt < 1) {
-				amt = 1;
-			}
-			try {
-				mob = Qmob.deserializeKey(key.getSubKey("mob"));
-			}
-			catch (final Exception ignore) {}
-			
-			return new XmobKillObjective(mob, amt, loc, rng);
-		}
-		catch (final Exception e) {
-			return null;
-		}
-	}
-	
-	//Custom methods
-	
 	public boolean checkMob(final LivingEntity entity) {
 		final EntityEquipment ee = entity.getEquipment();
 		System.out.println("Objective: "
@@ -119,9 +74,9 @@ public final class XmobKillObjective extends Objective {
 		System.out.println("Mob: " + entity.getCustomName().toLowerCase());
 		return (mob.getType() == null || entity.getType() == mob.getType())
 				&& (mob.getName().isEmpty() || ChatColor.stripColor(
-						entity.getCustomName().toLowerCase()).startsWith(
-						ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',
-								mob.getName()).toLowerCase())))
+				entity.getCustomName().toLowerCase()).startsWith(
+				ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',
+						mob.getName()).toLowerCase())))
 				&& (mob.getItem(0) == null || compareToItemStack(mob.getItem(0), ee.getItemInHand()))
 				&& (mob.getItem(1) == null || compareToItemStack(mob.getItem(1), ee.getBoots()))
 				&& (mob.getItem(2) == null || compareToItemStack(mob.getItem(2), ee.getLeggings()))
@@ -141,7 +96,55 @@ public final class XmobKillObjective extends Objective {
 		}
 	}
 	
+	//Custom methods
+	
 	private boolean compareToItemStack(final Qitem qitem, final ItemStack itemStack) {
 		return qitem.getMaterial() == Material.AIR || qitem.getMaterial() == itemStack.getType();
+	}
+	
+	@Command(min = 2, max = 4, usage = "<mob ID> <amount> {[location]} [range]")
+	public static Objective fromCommand(final QuesterCommandContext context)
+			throws CommandException, QuesterException {
+		final Qmob mob = QrExtras.plugin.mobs.getMob(context.getInt(0)).getCopy();
+		final int amt = context.getInt(1);
+		Location loc = null;
+		int rng = 5;
+		if(context.length() > 2) {
+			loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
+			if(context.length() > 3) {
+				rng = context.getInt(3);
+				if(rng < 1) {
+					throw new CommandException("Invalid range.");
+				}
+			}
+		}
+		return new XmobKillObjective(mob, amt, loc, rng);
+	}
+	
+	protected static Objective load(final StorageKey key) {
+		int rng = 0, amt = 1;
+		Qmob mob = null;
+		Location loc = null;
+		try {
+			loc = SerUtils.deserializeLocString(key.getString("location", ""));
+			rng = key.getInt("range", 5);
+			if(rng < 1) {
+				rng = 5;
+			}
+			amt = key.getInt("amount", 1);
+			if(amt < 1) {
+				amt = 1;
+			}
+			try {
+				mob = Qmob.deserializeKey(key.getSubKey("mob"));
+			}
+			catch(final Exception ignore) {
+			}
+
+			return new XmobKillObjective(mob, amt, loc, rng);
+		}
+		catch(final Exception e) {
+			return null;
+		}
 	}
 }

@@ -24,7 +24,6 @@ public class MythicListener implements Listener {
 		pm = Quester.getInstance().getProfileManager();
 	}
 
-
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void mythicDeath(MythicMobDeathEvent event) {
 		if(event.getKiller() instanceof Player) {

@@ -25,12 +25,12 @@ import java.util.regex.Pattern;
 
 public class QuestLog {
 	
-	private static int itemSlot = 8;
 	private static final ItemStack QuestLogItem;
+	private static int itemSlot = 8;
 	
 	static {
 		final ItemStack questLog = new ItemStack(Material.WRITTEN_BOOK, 1);
-		final BookMeta bm = (BookMeta) questLog.getItemMeta();
+		final BookMeta bm = (BookMeta)questLog.getItemMeta();
 		bm.setTitle(ChatColor.BLUE + "Quest Log");
 		questLog.setItemMeta(bm);
 		QuestLogItem = questLog;
@@ -50,25 +50,26 @@ public class QuestLog {
 	
 	public static boolean isQuestLog(final ItemStack item) {
 		if(item != null && item.getType() == Material.WRITTEN_BOOK) {
-			return ChatColor.stripColor(((BookMeta) item.getItemMeta()).getTitle()).equals(
+			return ChatColor.stripColor(((BookMeta)item.getItemMeta()).getTitle()).equals(
 					"Quest Log");
 		}
 		return false;
 	}
 	
-	public static void updateQuestLog(final Player player, final Quest quest, final PlayerProfile prof, final QuesterLang lang, final int occassion, final QuestManager qm, final boolean updateList) {
+	public static void updateQuestLog(final Player player, final Quest quest,
+			final PlayerProfile prof, final QuesterLang lang, final int occassion,
+			final QuestManager qm, final boolean updateList) {
 		
 		final ItemStack result = player.getInventory().getItem(itemSlot);
 		
 		if(isQuestLog(result)) {
-			final BookMeta meta = (BookMeta) result.getItemMeta();
+			final BookMeta meta = (BookMeta)result.getItemMeta();
 			final List<StringBuilder> pages = new ArrayList<StringBuilder>();
 			final List<String> story = new ArrayList<String>();
 			pages.add(new StringBuilder());
 			/* [0] => current page; [1] => current number of letters on page */
-			final int[] pageInfo = { 0, 0 };
+			final int[] pageInfo = {0, 0};
 			final Map<Integer, Map<Integer, Qevent>> events = quest.getQeventMap("XLOG");
-
 
 			String completed = occassion == -3 ? ChatColor.GREEN + " (Completed)" : "";
 			/* add quest name */
@@ -77,7 +78,7 @@ public class QuestLog {
 			/* add all onStart events */
 			if(events.containsKey(-1)) {
 				for(final Qevent e : events.get(-1).values()) {
-					story.add(" " + ((XlogQevent) e).getMessage(player.getName()));
+					story.add(" " + ((XlogQevent)e).getMessage(player.getName()));
 				}
 			}
 			
@@ -91,7 +92,7 @@ public class QuestLog {
 				if(occassion == -3 || progress.getObjectiveStatus(i) == ObjectiveStatus.COMPLETED) {
 					if(events.containsKey(i)) {
 						for(final Qevent e : events.get(i).values()) {
-							story.add(" " + ((XlogQevent) e).getMessage(player.getName()));
+							story.add(" " + ((XlogQevent)e).getMessage(player.getName()));
 						}
 					}
 				}
@@ -110,7 +111,7 @@ public class QuestLog {
 				if(!objs.get(i).isHidden()
 						&& (status == ObjectiveStatus.ACTIVE || status == ObjectiveStatus.COMPLETED || !QConfiguration.ordOnlyCurrent)) {
 					final char tag =
-							status == ObjectiveStatus.COMPLETED ? (char) 9745 : (char) 9744;
+							status == ObjectiveStatus.COMPLETED ? (char)9745 : (char)9744;
 					ChatColor color = ChatColor.RED;
 					switch(status) {
 						case ACTIVE:
@@ -138,12 +139,12 @@ public class QuestLog {
 			/* add all onComplete or onCancel llog events */
 			if(occassion == -2 && events.containsKey(-2)) {
 				for(final Qevent e : events.get(-2).values()) {
-					addText(pages, pageInfo, " " + ((XlogQevent) e).getMessage(player.getName()));
+					addText(pages, pageInfo, " " + ((XlogQevent)e).getMessage(player.getName()));
 				}
 			}
 			else if(occassion == -3 && events.containsKey(-3)) {
 				for(final Qevent e : events.get(-3).values()) {
-					addText(pages, pageInfo, " " + ((XlogQevent) e).getMessage(player.getName()));
+					addText(pages, pageInfo, " " + ((XlogQevent)e).getMessage(player.getName()));
 				}
 			}
 
@@ -169,7 +170,8 @@ public class QuestLog {
 		}
 	}
 	
-	private static void addText(final List<StringBuilder> pages, final int[] pageInfo, final String text) {
+	private static void addText(final List<StringBuilder> pages, final int[] pageInfo,
+			final String text) {
 		final int length = textLength(text);
 		if(pageInfo[1] + length > 256) {
 			pageInfo[0]++;
@@ -189,7 +191,8 @@ public class QuestLog {
 		return result;
 	}
 	
-	public static void updateQuestList(final Player player, final BookMeta meta, final QuestManager qm, final PlayerProfile prof) {
+	public static void updateQuestList(final Player player, final BookMeta meta,
+			final QuestManager qm, final PlayerProfile prof) {
 		final StringBuilder page1 = new StringBuilder("Quest points: ");
 		final StringBuilder page2 = new StringBuilder();
 		StringBuilder page = page1;
@@ -214,7 +217,8 @@ public class QuestLog {
 						page.append(ChatColor.RED);
 					}
 				}
-				catch (final QuesterException ignore) {}
+				catch(final QuesterException ignore) {
+				}
 				page.append(q.getName()).append('\n');
 				counter++;
 			}
@@ -225,5 +229,4 @@ public class QuestLog {
 		meta.setPage(1, page1.toString());
 		meta.setPage(2, page2.toString());
 	}
-	
 }

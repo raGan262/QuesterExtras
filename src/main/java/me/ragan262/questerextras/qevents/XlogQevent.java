@@ -34,17 +34,17 @@ public final class XlogQevent extends Qevent {
 		return message.replace("%p", playerName);
 	}
 
+	@Override
+	protected void save(StorageKey key) {
+		key.setString("text", rawmessage);
+	}
+
 	@Command(
 			min = 1,
 			max = 1,
 			usage = "<text>")
 	public static Qevent fromCommand(QuesterCommandContext context) {
 		return new XlogQevent(context.getString(0));
-	}
-
-	@Override
-	protected void save(StorageKey key) {
-		key.setString("text", rawmessage);
 	}
 	
 	protected static Qevent load(StorageKey key) {

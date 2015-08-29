@@ -54,8 +54,21 @@ public final class XspawnQevent extends Qevent {
 		}
 	}
 	
+	@Override
+	protected void save(final StorageKey key) {
+		if(amount != 1) {
+			key.setInt("amount", amount);
+		}
+		mob.serializeKey(key.getSubKey("mob"));
+		key.setString("location", SerUtils.serializeLocString(location));
+		if(range != 0) {
+			key.setInt("range", range);
+		}
+	}
+	
 	@Command(min = 3, max = 4, usage = "<mob ID> <amount> {<location>} [range]")
-	public static Qevent fromCommand(final QuesterCommandContext context) throws CommandException, QuesterException {
+	public static Qevent fromCommand(final QuesterCommandContext context)
+			throws CommandException, QuesterException {
 		final Qmob mob = QrExtras.plugin.mobs.getMob(context.getInt(0));
 		final int amt = context.getInt(1);
 		final Location loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
@@ -70,18 +83,6 @@ public final class XspawnQevent extends Qevent {
 			}
 		}
 		return new XspawnQevent(loc, rng, mob, amt);
-	}
-	
-	@Override
-	protected void save(final StorageKey key) {
-		if(amount != 1) {
-			key.setInt("amount", amount);
-		}
-		mob.serializeKey(key.getSubKey("mob"));
-		key.setString("location", SerUtils.serializeLocString(location));
-		if(range != 0) {
-			key.setInt("range", range);
-		}
 	}
 	
 	protected static Qevent load(final StorageKey key) {
@@ -101,12 +102,13 @@ public final class XspawnQevent extends Qevent {
 			try {
 				mob = Qmob.deserializeKey(key.getSubKey("mob"));
 			}
-			catch (final Exception ignore) {}
+			catch(final Exception ignore) {
+			}
 			if(mob == null) {
 				return null;
 			}
 		}
-		catch (final Exception e) {
+		catch(final Exception e) {
 			return null;
 		}
 		

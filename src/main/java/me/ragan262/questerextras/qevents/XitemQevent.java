@@ -32,6 +32,12 @@ public final class XitemQevent extends Qevent {
 		giveItem(item, player, item.getAmount());
 	}
 
+	@Override
+	protected void save(StorageKey key) {
+		key.removeKey("item");
+		item.serializeKey(key.getSubKey("item"));
+	}
+	
 	@Command(
 			min = 1,
 			max = 2,
@@ -43,14 +49,8 @@ public final class XitemQevent extends Qevent {
 				item.setAmount(context.getInt(1));
 			}
 		}
-		
+
 		return new XitemQevent(item);
-	}
-	
-	@Override
-	protected void save(StorageKey key) {
-		key.removeKey("item");
-		item.serializeKey(key.getSubKey("item"));
 	}
 	
 	protected static Qevent load(StorageKey key) {
@@ -68,38 +68,38 @@ public final class XitemQevent extends Qevent {
 	public static void giveItem(Qitem item, Player player, int amount) {
 		ItemStack is = item.getItemStack();
 		int maxSize = item.getMaterial().getMaxStackSize();
-        int toGive = amount;
-        int numSpaces = 0;
-        int given = 0;
-        ItemStack[] contents = player.getInventory().getContents();
-        for (ItemStack i : contents) {
-            if (i == null) {
-                numSpaces += maxSize;
-            } 
-            else if (i.isSimilar(is)) {
-                   numSpaces += (maxSize - i.getAmount());
-            }
-        }
-        given = Math.min(toGive, numSpaces);
-        toGive -= given;
-        numSpaces = (int) Math.ceil((double)given / (double)maxSize);
-        int round;
-        PlayerInventory inv = player.getInventory();
-        for(int k=0; k<numSpaces; k++) {
-        	round = Math.min(maxSize, given);
-	        is.setAmount(round);
-	        inv.addItem(is);
-	        given -= round;
-        }
+		int toGive = amount;
+		int numSpaces = 0;
+		int given = 0;
+		ItemStack[] contents = player.getInventory().getContents();
+		for(ItemStack i : contents) {
+			if(i == null) {
+				numSpaces += maxSize;
+			}
+			else if(i.isSimilar(is)) {
+				numSpaces += (maxSize - i.getAmount());
+			}
+		}
+		given = Math.min(toGive, numSpaces);
+		toGive -= given;
+		numSpaces = (int)Math.ceil((double)given / (double)maxSize);
+		int round;
+		PlayerInventory inv = player.getInventory();
+		for(int k = 0; k < numSpaces; k++) {
+			round = Math.min(maxSize, given);
+			is.setAmount(round);
+			inv.addItem(is);
+			given -= round;
+		}
 
-        if(toGive > 0) {
-            numSpaces = (int) Math.ceil((double)toGive / (double)maxSize);
-        	for(int k=0; k<numSpaces; k++) {
-        		given = Math.min(toGive, maxSize);
-        		is.setAmount(given);
-	        	player.getWorld().dropItem(player.getLocation(), is);
-	        	toGive -= given;
-        	}
-        }
+		if(toGive > 0) {
+			numSpaces = (int)Math.ceil((double)toGive / (double)maxSize);
+			for(int k = 0; k < numSpaces; k++) {
+				given = Math.min(toGive, maxSize);
+				is.setAmount(given);
+				player.getWorld().dropItem(player.getLocation(), is);
+				toGive -= given;
+			}
+		}
 	}
 }

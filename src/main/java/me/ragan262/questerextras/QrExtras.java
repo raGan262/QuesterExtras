@@ -62,7 +62,7 @@ public class QrExtras extends JavaPlugin {
 			try {
 				em.register(c);
 			}
-			catch (ElementException e) {
+			catch(ElementException e) {
 				getLogger().info("Failed to register element: " + e.getMessage());
 			}
 		}
@@ -90,7 +90,6 @@ public class QrExtras extends JavaPlugin {
 		items.load(config.getKey("items"));
 		mobs = new Mobs();
 		mobs.load(config.getKey("mobs"));
-		
 		
 		commands.register(Commands.class);
 		getServer().getPluginManager().registerEvents(new PluginListener(this), this);
@@ -142,7 +141,7 @@ public class QrExtras extends JavaPlugin {
 		try {
 			Class.forName("me.ragan262.quester.Quester");
 		}
-		catch (final Exception e) {
+		catch(final Exception e) {
 			getLogger().severe("Quester not found. Disabling.");
 			return false;
 		}
@@ -150,7 +149,7 @@ public class QrExtras extends JavaPlugin {
 			Class.forName("me.ragan262.quester.holder.QuesterTrait");
 			getLogger().severe("Quester in use is too old, update to newer version. Disabling.");
 		}
-		catch (final Exception e) {
+		catch(final Exception e) {
 			return true;
 		}
 		return false;

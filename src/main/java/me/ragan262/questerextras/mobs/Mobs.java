@@ -19,7 +19,7 @@ public class Mobs {
 		try {
 			return mobs.get(id);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			throw new CustomException("No such mob.");
 		}
 	}
@@ -29,7 +29,7 @@ public class Mobs {
 			Qmob mob = mobs.get(id);
 			return mob.getType() + " " + mob.getName();
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return "No such mob.";
 		}
 	}
@@ -47,14 +47,14 @@ public class Mobs {
 			mobs.remove(ID);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
 	
 	public void save(StorageKey key) {
 		key.removeKey("");
-		for(int i=0; i<mobs.size(); i++) {
+		for(int i = 0; i < mobs.size(); i++) {
 			mobs.get(i).serializeKey(key.getSubKey(String.valueOf(i)));
 		}
 	}

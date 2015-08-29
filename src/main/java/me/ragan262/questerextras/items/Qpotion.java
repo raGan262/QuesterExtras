@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Qpotion extends Qitem {
 	
-	protected List<PotionEffect> effects = new ArrayList<PotionEffect>(); 
+	protected List<PotionEffect> effects = new ArrayList<PotionEffect>();
 	
 	@Override
 	public String getType() {
@@ -60,7 +60,7 @@ public class Qpotion extends Qitem {
 			sb.append('\n').append(indent).append(ChatColor.BLUE).append("Effects: ");
 			for(PotionEffect e : effects) {
 				sb.append('\n').append(indent).append("  ").append(ChatColor.RESET).append(e.getType().getName()).append(" - Lvl ")
-						.append(e.getAmplifier()+1).append(" - ").append(e.getDuration()/20.0).append('s');
+						.append(e.getAmplifier() + 1).append(" - ").append(e.getDuration() / 20.0).append('s');
 			}
 		}
 		return sb.toString();
@@ -75,7 +75,7 @@ public class Qpotion extends Qitem {
 	void copyValues(Qitem item) {
 		super.copyValues(item);
 		if(item instanceof Qpotion) {
-			Qpotion potion = (Qpotion) item;
+			Qpotion potion = (Qpotion)item;
 			for(PotionEffect e : effects) {
 				potion.addEffect(new PotionEffect(e.getType(), e.getDuration(), e.getAmplifier()));
 			}
@@ -86,7 +86,7 @@ public class Qpotion extends Qitem {
 	public ItemStack getItemStack() {
 		ItemStack is = super.getItemStack();
 		if(isPotion()) {
-			PotionMeta pm = (PotionMeta) is.getItemMeta();
+			PotionMeta pm = (PotionMeta)is.getItemMeta();
 			if(!effects.isEmpty()) {
 				for(PotionEffect eff : effects) {
 					pm.addCustomEffect(eff, true);
@@ -103,7 +103,6 @@ public class Qpotion extends Qitem {
 		if(!effects.isEmpty()) {
 			key.setString("effects", saveEffects(effects));
 		}
-		
 	}
 	
 	static Qitem loadKey(StorageKey key) {
@@ -136,7 +135,8 @@ public class Qpotion extends Qitem {
 				PotionEffect e = new PotionEffect(PotionEffectType.getById(Integer.parseInt(arr[0])), Integer.parseInt(arr[1]), Integer.parseInt(arr[2]));
 				efs.add(e);
 			}
-			catch (Exception ignore) {}
+			catch(Exception ignore) {
+			}
 		}
 		return efs;
 	}

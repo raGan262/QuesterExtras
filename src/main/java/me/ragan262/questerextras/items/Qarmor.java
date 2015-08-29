@@ -60,7 +60,7 @@ public class Qarmor extends Qitem {
 	void copyValues(Qitem item) {
 		super.copyValues(item);
 		if(item instanceof Qarmor) {
-			Qarmor armor = (Qarmor) item;
+			Qarmor armor = (Qarmor)item;
 			if(hasColor()) {
 				armor.setColor(Color.fromRGB(red, green, blue));
 			}
@@ -71,7 +71,7 @@ public class Qarmor extends Qitem {
 	public ItemStack getItemStack() {
 		ItemStack is = super.getItemStack();
 		if(isArmor() && hasColor()) {
-			LeatherArmorMeta pm = (LeatherArmorMeta) is.getItemMeta();
+			LeatherArmorMeta pm = (LeatherArmorMeta)is.getItemMeta();
 			pm.setColor(Color.fromRGB(red, green, blue));
 			is.setItemMeta(pm);
 		}
@@ -84,7 +84,10 @@ public class Qarmor extends Qitem {
 		if(hasColor()) {
 			key.setString("color", saveColor());
 		}
-		
+	}
+	
+	private String saveColor() {
+		return "" + red + ':' + green + ':' + blue;
 	}
 	
 	static Qitem loadKey(StorageKey key) {
@@ -93,17 +96,14 @@ public class Qarmor extends Qitem {
 		return armor;
 	}
 	
-	private String saveColor() {
-		return "" + red + ':' + green + ':' + blue;
-	}
-	
 	private static Color loadColor(String colorString) {
 		Color col = null;
 		try {
 			String[] arr = colorString.split(":");
-			col = Color.fromRGB(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]), Integer.parseInt(arr[2]));
+			col = Color.fromRGB(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]), Integer.parseInt(arr[2]));
 		}
-		catch (Exception ignore) {}
+		catch(Exception ignore) {
+		}
 		return col;
 	}
 }

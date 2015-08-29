@@ -27,7 +27,7 @@ public class Commands {
 		this.plugin = plugin;
 	}
 	
-	@CommandLabels({ "help" })
+	@CommandLabels({"help"})
 	@Command(desc = "displays help", usage = "[arg1] [arg2]...", permission = "questerextras.admin")
 	public void help(final QuesterCommandContext context, final CommandSender sender) {
 		final Map<String, List<CommandHelp>> cmds =
@@ -40,26 +40,29 @@ public class Commands {
 		}
 	}
 	
-	@CommandLabels({ "item" })
+	@CommandLabels({"item"})
 	@Command(desc = "item manipulation", permission = "questerextras.admin")
 	@NestedCommand(ItemCommands.class)
-	public void item(final QuesterCommandContext context, final CommandSender sender) throws QuesterException {
+	public void item(final QuesterCommandContext context, final CommandSender sender)
+			throws QuesterException {
 	}
 	
-	@CommandLabels({ "mob" })
+	@CommandLabels({"mob"})
 	@Command(desc = "mob manipulation", permission = "questerextras.admin")
 	@NestedCommand(MobCommands.class)
-	public void mob(final QuesterCommandContext context, final CommandSender sender) throws QuesterException {
+	public void mob(final QuesterCommandContext context, final CommandSender sender)
+			throws QuesterException {
 	}
 	
-	@CommandLabels({ "msg" })
+	@CommandLabels({"msg"})
 	@Command(
 			desc = "broadcasts a message in radius",
 			usage = "<radius/player> <message> (-p)",
 			min = 2,
 			max = 2,
 			permission = "questerextras.admin")
-	public void msg(final QuesterCommandContext context, final CommandSender sender) throws CommandException {
+	public void msg(final QuesterCommandContext context, final CommandSender sender)
+			throws CommandException {
 		if(context.hasFlag('p')) {
 			final Player target = Bukkit.getPlayer(context.getString(0));
 			if(target != null) {
@@ -76,10 +79,10 @@ public class Commands {
 		else {
 			Location loc = null;
 			if(sender instanceof Player) {
-				loc = ((Player) sender).getLocation();
+				loc = ((Player)sender).getLocation();
 			}
 			else if(sender instanceof BlockCommandSender) {
-				loc = ((BlockCommandSender) sender).getBlock().getLocation();
+				loc = ((BlockCommandSender)sender).getBlock().getLocation();
 			}
 			if(loc != null) {
 				final String msg =
@@ -98,9 +101,10 @@ public class Commands {
 		}
 	}
 	
-	@CommandLabels({ "save" })
+	@CommandLabels({"save"})
 	@Command(desc = "saves questerextras data", max = 0, permission = "questerextras.admin")
-	public void save(final QuesterCommandContext context, final CommandSender sender) throws QuesterException {
+	public void save(final QuesterCommandContext context, final CommandSender sender)
+			throws QuesterException {
 		plugin.items.save(plugin.config.getKey("items"));
 		plugin.mobs.save(plugin.config.getKey("mobs"));
 		plugin.config.save();

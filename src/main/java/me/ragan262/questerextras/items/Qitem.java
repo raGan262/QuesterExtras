@@ -90,7 +90,7 @@ public class Qitem {
 			this.lore.remove(id);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -104,7 +104,7 @@ public class Qitem {
 			this.lore.set(line, loreLine);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -160,7 +160,7 @@ public class Qitem {
 		}
 		if(!enchants.isEmpty()) {
 			sb.append('\n').append(indent).append(ChatColor.BLUE).append("Enchants: ");
-			for(Entry<Integer, Integer> e: enchants.entrySet()) {
+			for(Entry<Integer, Integer> e : enchants.entrySet()) {
 				sb.append('\n').append(indent).append("  ").append(ChatColor.RESET)
 						.append(Enchantment.getById(e.getKey()).getName()).append(" - ").append(e.getValue());
 			}
@@ -220,7 +220,7 @@ public class Qitem {
 		is.setItemMeta(im);
 		return is;
 	}
- 	
+
 	public void serializeKey(StorageKey key) {
 		key.setString("type", getType());
 		if(material != Material.AIR || damage > 0) {
@@ -271,7 +271,8 @@ public class Qitem {
 				item.setDamage((short)itm[1]);
 			}
 		}
-		catch (IllegalArgumentException ignore) {}
+		catch(IllegalArgumentException ignore) {
+		}
 		item.setQuestItem(key.getBoolean("questitem", false));
 		if(!item.isQuestItem()) {
 			item.setDonatorItem(key.getBoolean("donatoritem", false));
@@ -284,7 +285,8 @@ public class Qitem {
 		try {
 			item.setEnchants(SerUtils.parseEnchants(key.getString("enchants", "")));
 		}
-		catch (IllegalArgumentException ignore) {}
+		catch(IllegalArgumentException ignore) {
+		}
 		return item;
 	}
 	

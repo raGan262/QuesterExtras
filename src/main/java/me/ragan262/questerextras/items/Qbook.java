@@ -52,7 +52,7 @@ public class Qbook extends Qitem {
 			this.pages.set(page2, temp);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -71,7 +71,7 @@ public class Qbook extends Qitem {
 			this.pages.set(page, pageText);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -82,7 +82,7 @@ public class Qbook extends Qitem {
 			this.pages.set(page, old + " " + text);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -96,7 +96,7 @@ public class Qbook extends Qitem {
 			this.pages.remove(page);
 			return true;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			return false;
 		}
 	}
@@ -132,7 +132,7 @@ public class Qbook extends Qitem {
 	void copyValues(Qitem item) {
 		super.copyValues(item);
 		if(item instanceof Qbook) {
-			Qbook book = (Qbook) item;
+			Qbook book = (Qbook)item;
 			book.setAuthor(author);
 			book.setTitle(title);
 			for(String p : pages) {
@@ -145,7 +145,7 @@ public class Qbook extends Qitem {
 	public ItemStack getItemStack() {
 		ItemStack is = super.getItemStack();
 		if(isBook()) {
-			BookMeta bm = (BookMeta) is.getItemMeta();
+			BookMeta bm = (BookMeta)is.getItemMeta();
 			if(!title.isEmpty()) {
 				bm.setTitle(title);
 			}

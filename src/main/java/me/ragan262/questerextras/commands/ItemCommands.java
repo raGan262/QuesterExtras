@@ -39,10 +39,11 @@ public class ItemCommands {
 	public void list(QuesterCommandContext context, CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "Item list:");
 		int size = items.size();
-		for(int i=0; i<size; i++) {
+		for(int i = 0; i < size; i++) {
 			sender.sendMessage("[" + i + "] " + items.getItemString(i));
 		}
 	}
+
 	@CommandLabels({"info"})
 	@Command(
 			desc = "item info",
@@ -53,7 +54,7 @@ public class ItemCommands {
 		try {
 			sender.sendMessage(items.getItem(context.getInt(0)).getInfo(""));
 		}
-		catch (IllegalArgumentException e) {
+		catch(IllegalArgumentException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		}
 	}
@@ -104,7 +105,7 @@ public class ItemCommands {
 						item.setDamage((short)itm[1]);
 					}
 				}
-				catch (IllegalArgumentException e) {
+				catch(IllegalArgumentException e) {
 					sender.sendMessage(ChatColor.RED + "Invalid item.");
 				}
 			}
@@ -118,7 +119,7 @@ public class ItemCommands {
 				}
 				if(context.length() > 3) {
 					item.removeLore();
-					for(int i= 3; i < context.length(); i++) {
+					for(int i = 3; i < context.length(); i++) {
 						item.addLore(context.getString(i));
 					}
 				}
@@ -131,7 +132,7 @@ public class ItemCommands {
 			item.setDonatorItem(true);
 		}
 		if(items.addItem(item)) {
-			sender.sendMessage(ChatColor.GREEN + "Item created. (ID " + (items.size()-1) + ")");
+			sender.sendMessage(ChatColor.GREEN + "Item created. (ID " + (items.size() - 1) + ")");
 		}
 		else {
 			sender.sendMessage(ChatColor.RED + "Failed to create an item. (this should never happen)");
@@ -146,7 +147,7 @@ public class ItemCommands {
 		}
 		ItemMeta im = is.getItemMeta();
 		if(im instanceof BookMeta) {
-			BookMeta bm = (BookMeta) im;
+			BookMeta bm = (BookMeta)im;
 			Qbook book = new Qbook();
 			item = book;
 			if(bm.hasAuthor()) {
@@ -162,7 +163,7 @@ public class ItemCommands {
 			}
 		}
 		else if(im instanceof PotionMeta) {
-			PotionMeta pm = (PotionMeta) im;
+			PotionMeta pm = (PotionMeta)im;
 			Qpotion potion = new Qpotion();
 			item = potion;
 			if(pm.hasCustomEffects()) {
@@ -172,7 +173,7 @@ public class ItemCommands {
 			}
 		}
 		else if(im instanceof SkullMeta) {
-			SkullMeta sm = (SkullMeta) im;
+			SkullMeta sm = (SkullMeta)im;
 			Qskull skull = new Qskull();
 			item = skull;
 			if(sm.hasOwner()) {
@@ -180,7 +181,7 @@ public class ItemCommands {
 			}
 		}
 		else if(im instanceof LeatherArmorMeta) {
-			LeatherArmorMeta am = (LeatherArmorMeta) im;
+			LeatherArmorMeta am = (LeatherArmorMeta)im;
 			Qarmor armor = new Qarmor();
 			item = armor;
 			armor.setColor(am.getColor());
@@ -239,7 +240,7 @@ public class ItemCommands {
 		try {
 			context.getPlayer().getInventory().addItem(items.getItem(context.getInt(0)).getItemStack());
 		}
-		catch (IllegalArgumentException e) {
+		catch(IllegalArgumentException e) {
 			if(e instanceof NumberFormatException) {
 				throw e;
 			}
@@ -255,7 +256,8 @@ public class ItemCommands {
 			min = 2,
 			max = 3,
 			usage = "<player> <item ID> [amount]")
-	public void give(QuesterCommandContext context, CommandSender sender) throws CommandException, QuesterException {
+	public void give(QuesterCommandContext context, CommandSender sender)
+			throws CommandException, QuesterException {
 		try {
 			Player to = Bukkit.getServer().getPlayer(context.getString(0));
 			if(to == null) {
@@ -268,7 +270,7 @@ public class ItemCommands {
 			}
 			XfillQevent.giveItem(item, to.getInventory(), amt, to.getLocation());
 		}
-		catch (IllegalArgumentException e) {
+		catch(IllegalArgumentException e) {
 			if(e instanceof NumberFormatException) {
 				throw e;
 			}
@@ -284,7 +286,8 @@ public class ItemCommands {
 			min = 1,
 			max = 2,
 			usage = "<item ID> <item>|(-qd)")
-	public void material(QuesterCommandContext context, CommandSender sender) throws QuesterException, CommandException {
+	public void material(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException, CommandException {
 		Qitem item = items.getItem(context.getInt(0));
 		boolean test = true;
 		if(context.length() > 1) {
@@ -295,7 +298,7 @@ public class ItemCommands {
 					item.setDamage((short)itm[1]);
 				}
 			}
-			catch (IllegalArgumentException e) {
+			catch(IllegalArgumentException e) {
 				sender.sendMessage(ChatColor.RED + "Invalid material.");
 			}
 			sender.sendMessage(ChatColor.GREEN + "Material set.");
@@ -347,7 +350,8 @@ public class ItemCommands {
 			min = 1,
 			max = 2,
 			usage = "<item ID> [author]")
-	public void author(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void author(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qbook) {
 			String author = "";
@@ -367,7 +371,6 @@ public class ItemCommands {
 		}
 	}
 
-	
 	@CommandLabels({"page"})
 	@Command(desc = "page manipulation")
 	@NestedCommand(PageCommands.class)
@@ -410,7 +413,7 @@ public class ItemCommands {
 		StringBuilder errors = new StringBuilder();
 		boolean success = false;
 		Ench en = null;
-		for(int i=1; i<context.length(); i++) {
+		for(int i = 1; i < context.length(); i++) {
 			if(context.getString(i).charAt(0) == '!') {
 				String s = context.getString(i).substring(1);
 				en = getEnchant(s);
@@ -441,11 +444,6 @@ public class ItemCommands {
 		}
 	}
 	
-	class Ench {
-		Enchantment ench = null;
-		int level = 1;
-	}
-	
 	private Ench getEnchant(String s) {
 		Ench en = new Ench();
 		String[] ss = s.split(":");
@@ -456,14 +454,16 @@ public class ItemCommands {
 					en.level = 1;
 				}
 			}
-			catch (Exception e) {}
+			catch(Exception e) {
+			}
 		}
 		en.ench = Enchantment.getByName(ss[0].toUpperCase());
 		if(en.ench == null) {
 			try {
 				en.ench = Enchantment.getById(Integer.parseInt(ss[0]));
 			}
-			catch (Exception e) {}
+			catch(Exception e) {
+			}
 		}
 		return en;
 	}
@@ -473,13 +473,14 @@ public class ItemCommands {
 			desc = "changes potion effects",
 			min = 2,
 			usage = "<item ID> {<effect>}...")
-	public void effect(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void effect(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qpotion) {
 			StringBuilder errors = new StringBuilder();
 			boolean success = false;
 			PotionEffect eff = null;
-			for(int i=1; i<context.length(); i++) {
+			for(int i = 1; i < context.length(); i++) {
 				if(context.getString(i).charAt(0) == '!') {
 					String s = context.getString(i).substring(1);
 					eff = getEffect(s);
@@ -488,7 +489,7 @@ public class ItemCommands {
 					}
 					else {
 						success = true;
-						((Qpotion) item).removeEffect(eff.getType());
+						((Qpotion)item).removeEffect(eff.getType());
 					}
 				}
 				else {
@@ -498,7 +499,7 @@ public class ItemCommands {
 					}
 					else {
 						success = true;
-						((Qpotion) item).addEffect(eff);
+						((Qpotion)item).addEffect(eff);
 					}
 				}
 			}
@@ -512,42 +513,6 @@ public class ItemCommands {
 		else {
 			sender.sendMessage(ChatColor.RED + "Item is not a potion.");
 		}
-	}
-	
-	public static PotionEffect getEffect(String s) {
-		PotionEffectType eff = null;
-		int power = 0;
-		int duration = 0;
-		String[] ss = s.split(":");
-		if(ss.length > 1) {
-			try {
-				duration = (int)Math.round(Double.parseDouble(ss[1]) * 20);
-				if(duration < 0) {
-					duration = 0;
-				}
-			}
-			catch (Exception e) {}
-			if(ss.length > 2) {
-				try {
-					power = Integer.parseInt(ss[2]);
-					if(power < 0) {
-						power = 0;
-					}
-				}
-				catch (Exception e) {}
-			}
-		}
-		eff = PotionEffectType.getByName(ss[0].toUpperCase());
-		if(eff == null) {
-			try {
-				eff = PotionEffectType.getById(Integer.parseInt(ss[0]));
-			}
-			catch (Exception e) {}
-		}
-		if(eff == null) {
-			return null;
-		}
-		return new PotionEffect(eff, duration, power);
 	}
 	
 	@CommandLabels({"owner"})
@@ -588,7 +553,7 @@ public class ItemCommands {
 			Color color = null;
 			if(context.length() > 1) {
 				color = getColor(context.getString(1));
-				((Qarmor) item).setColor(color);
+				((Qarmor)item).setColor(color);
 				if(color == null) {
 					sender.sendMessage(ChatColor.RED + "Could not resolve color " + context.getString(1) + ".");
 				}
@@ -597,7 +562,7 @@ public class ItemCommands {
 				}
 			}
 			else {
-				((Qarmor) item).resetColor();
+				((Qarmor)item).resetColor();
 				sender.sendMessage(ChatColor.GREEN + "Color reset.");
 			}
 		}
@@ -612,7 +577,52 @@ public class ItemCommands {
 			String[] s = arg.split(":");
 			color = Color.fromRGB(Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]));
 		}
-		catch (Exception ignore) {} 
+		catch(Exception ignore) {
+		}
 		return color;
+	}
+	
+	public static PotionEffect getEffect(String s) {
+		PotionEffectType eff = null;
+		int power = 0;
+		int duration = 0;
+		String[] ss = s.split(":");
+		if(ss.length > 1) {
+			try {
+				duration = (int)Math.round(Double.parseDouble(ss[1]) * 20);
+				if(duration < 0) {
+					duration = 0;
+				}
+			}
+			catch(Exception e) {
+			}
+			if(ss.length > 2) {
+				try {
+					power = Integer.parseInt(ss[2]);
+					if(power < 0) {
+						power = 0;
+					}
+				}
+				catch(Exception e) {
+				}
+			}
+		}
+		eff = PotionEffectType.getByName(ss[0].toUpperCase());
+		if(eff == null) {
+			try {
+				eff = PotionEffectType.getById(Integer.parseInt(ss[0]));
+			}
+			catch(Exception e) {
+			}
+		}
+		if(eff == null) {
+			return null;
+		}
+		return new PotionEffect(eff, duration, power);
+	}
+	
+	class Ench {
+		Enchantment ench = null;
+		int level = 1;
 	}
 }

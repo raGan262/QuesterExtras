@@ -21,15 +21,11 @@ public class Qmob {
 	protected String name = "";
 	protected int health = 0;
 	protected EntityType type = null;
-	protected QitemSlot[] slots = {new QitemSlot(), new QitemSlot(), new QitemSlot(), new QitemSlot(), new QitemSlot()};
-	protected List<PotionEffect> effects = new ArrayList<PotionEffect>(); 
-	
+	protected QitemSlot[] slots = {
+			new QitemSlot(), new QitemSlot(), new QitemSlot(), new QitemSlot(), new QitemSlot()
+	};
+	protected List<PotionEffect> effects = new ArrayList<PotionEffect>();
 
-	class QitemSlot {
-		Qitem item = null;
-		float drop = 0;
-	}
-	
 	public boolean setType(EntityType type) {
 		if(type != null && type.isAlive()) {
 			this.type = type;
@@ -149,7 +145,7 @@ public class Qmob {
 			sb.append('\n').append(indent).append(ChatColor.BLUE).append("Effects: ");
 			for(PotionEffect e : effects) {
 				sb.append('\n').append(indent).append("  ").append(ChatColor.RESET).append(e.getType().getName()).append(" - Lvl ")
-						.append(e.getAmplifier()+1).append(" - ").append(e.getDuration()/20.0).append('s');
+						.append(e.getAmplifier() + 1).append(" - ").append(e.getDuration() / 20.0).append('s');
 			}
 		}
 		return sb.toString();
@@ -157,7 +153,7 @@ public class Qmob {
 	
 	public LivingEntity spawnAt(Location location) {
 		try {
-			LivingEntity e = (LivingEntity) location.getWorld().spawnEntity(location, type);
+			LivingEntity e = (LivingEntity)location.getWorld().spawnEntity(location, type);
 			if(!name.isEmpty()) {
 				e.setCustomName(ChatColor.translateAlternateColorCodes('&', name));
 				e.setCustomNameVisible(true);
@@ -223,13 +219,13 @@ public class Qmob {
 				mob.addEffect(new PotionEffect(e.getType(), e.getDuration(), e.getAmplifier()));
 			}
 		}
-		for(int i=0; i<slots.length; i++) {
+		for(int i = 0; i < slots.length; i++) {
 			if(slots[i].item != null) {
 				mob.setItem(i, slots[i].item.getCopy());
 				mob.setChance(i, slots[i].drop);
 			}
 		}
-		
+
 		return mob;
 	}
 	
@@ -283,35 +279,41 @@ public class Qmob {
 		try {
 			mob.setType(SerUtils.parseEntity(key.getString("entity", null)));
 		}
-		catch (Exception ignore) {}
+		catch(Exception ignore) {
+		}
 		mob.setName(key.getString("name", ""));
 		mob.setHealth(key.getInt("health", 0));
 		mob.setEffects(Qpotion.loadEffects(key.getString("effects", "")));
 		StorageKey subKey = key.getSubKey("hand");
 		if(subKey.hasSubKeys()) {
 			mob.slots[0].item = Qitem.deserializeKey(subKey);
-			mob.slots[0].drop = (float) subKey.getDouble("chance", 0F);
+			mob.slots[0].drop = (float)subKey.getDouble("chance", 0F);
 		}
 		subKey = key.getSubKey("feet");
 		if(subKey.hasSubKeys()) {
 			mob.slots[1].item = Qitem.deserializeKey(subKey);
-			mob.slots[1].drop = (float) subKey.getDouble("chance", 0F);
+			mob.slots[1].drop = (float)subKey.getDouble("chance", 0F);
 		}
 		subKey = key.getSubKey("legs");
 		if(subKey.hasSubKeys()) {
 			mob.slots[2].item = Qitem.deserializeKey(subKey);
-			mob.slots[2].drop = (float) subKey.getDouble("chance", 0F);
+			mob.slots[2].drop = (float)subKey.getDouble("chance", 0F);
 		}
 		subKey = key.getSubKey("chest");
 		if(subKey.hasSubKeys()) {
 			mob.slots[3].item = Qitem.deserializeKey(subKey);
-			mob.slots[3].drop = (float) subKey.getDouble("chance", 0F);
+			mob.slots[3].drop = (float)subKey.getDouble("chance", 0F);
 		}
 		subKey = key.getSubKey("head");
 		if(subKey.hasSubKeys()) {
 			mob.slots[4].item = Qitem.deserializeKey(subKey);
-			mob.slots[4].drop = (float) subKey.getDouble("chance", 0F);
+			mob.slots[4].drop = (float)subKey.getDouble("chance", 0F);
 		}
 		return mob;
+	}
+	
+	class QitemSlot {
+		Qitem item = null;
+		float drop = 0;
 	}
 }

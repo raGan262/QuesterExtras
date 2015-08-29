@@ -32,7 +32,7 @@ public class PageCommands {
 			if(context.length() > 1) {
 				text = context.getString(1);
 			}
-			((Qbook) item).addPage(text);
+			((Qbook)item).addPage(text);
 			sender.sendMessage(ChatColor.GREEN + "Page added.");
 		}
 		else {
@@ -46,17 +46,18 @@ public class PageCommands {
 			min = 2,
 			max = 2,
 			usage = "<item ID> <page ID|all>")
-	public void remove(QuesterCommandContext context, CommandSender sender) throws QuesterException {
+	public void remove(QuesterCommandContext context, CommandSender sender)
+			throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qbook) {
 			boolean status = true;
 			if(context.getString(1).equalsIgnoreCase("ALL")) {
-				((Qbook) item).clearPages();
+				((Qbook)item).clearPages();
 				sender.sendMessage(ChatColor.GREEN + "All pages removed.");
 				return;
 			}
 			else {
-				status = ((Qbook) item).removePage(context.getInt(1));
+				status = ((Qbook)item).removePage(context.getInt(1));
 			}
 			if(status) {
 				sender.sendMessage(ChatColor.GREEN + "Page removed.");
@@ -84,7 +85,7 @@ public class PageCommands {
 				text = context.getString(2);
 			}
 			boolean status = true;
-			status = ((Qbook) item).setPage(context.getInt(1), text);
+			status = ((Qbook)item).setPage(context.getInt(1), text);
 			if(status) {
 				sender.sendMessage(ChatColor.GREEN + "Page set.");
 			}
@@ -111,7 +112,7 @@ public class PageCommands {
 				text = context.getString(2);
 			}
 			boolean status = true;
-			status = ((Qbook) item).addToPage(context.getInt(1), text);
+			status = ((Qbook)item).addToPage(context.getInt(1), text);
 			if(status) {
 				sender.sendMessage(ChatColor.GREEN + "Page content added.");
 			}
@@ -133,7 +134,7 @@ public class PageCommands {
 	public void swap(QuesterCommandContext context, CommandSender sender) throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qbook) {
-			boolean status = ((Qbook) item).swapPages(context.getInt(1), context.getInt(2));
+			boolean status = ((Qbook)item).swapPages(context.getInt(1), context.getInt(2));
 			if(status) {
 				sender.sendMessage(ChatColor.GREEN + "Pages swapped.");
 			}
@@ -155,7 +156,7 @@ public class PageCommands {
 	public void move(QuesterCommandContext context, CommandSender sender) throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qbook) {
-			boolean status = ((Qbook) item).movePage(context.getInt(1), context.getInt(2));
+			boolean status = ((Qbook)item).movePage(context.getInt(1), context.getInt(2));
 			if(status) {
 				sender.sendMessage(ChatColor.GREEN + "Page moved.");
 			}

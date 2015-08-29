@@ -38,11 +38,11 @@ public class ObjectiveListener implements Listener {
 		final Projectile proj = event.getEntity();
 		
 		if(proj instanceof Arrow) {
-			final Arrow arrow = (Arrow) proj;
+			final Arrow arrow = (Arrow)proj;
 			if(!(arrow.getShooter() instanceof Player)) {
 				return;
 			}
-			final Player player = (Player) arrow.getShooter();
+			final Player player = (Player)arrow.getShooter();
 			final PlayerProfile prof = pm.getProfile(player);
 			final Quest quest = prof.getQuest();
 			if(quest != null) {
@@ -55,7 +55,7 @@ public class ObjectiveListener implements Listener {
 						if(!pm.isObjectiveActive(prof, i)) {
 							continue;
 						}
-						final XarrowObjective obj = (XarrowObjective) objs.get(i);
+						final XarrowObjective obj = (XarrowObjective)objs.get(i);
 						
 						final Vector arrowloc = arrow.getLocation().toVector();
 						//Vector arrowdir = arrow.getLocation().getDirection();
@@ -81,7 +81,6 @@ public class ObjectiveListener implements Listener {
 				}
 			}
 		}
-		
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -104,7 +103,7 @@ public class ObjectiveListener implements Listener {
 							continue;
 						}
 						final LivingEntity ent = event.getEntity();
-						final XmobKillObjective obj = (XmobKillObjective) objs.get(i);
+						final XmobKillObjective obj = (XmobKillObjective)objs.get(i);
 						if(obj.checkMob(ent) && obj.checkLocation(ent.getLocation())) {
 							pm.incProgress(player, ActionSource.listenerSource(event), i);
 							return;

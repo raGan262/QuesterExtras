@@ -67,7 +67,7 @@ public class QuestLogListener implements Listener {
 		final Player player = event.getPlayer();
 		if(!QuestLog.isQuestLog(player.getInventory().getItem(QuestLog.getItemSlot()))) {
 			final ItemStack qLog = QuestLog.getQuestLogItem();
-			final BookMeta bm = (BookMeta) qLog.getItemMeta();
+			final BookMeta bm = (BookMeta)qLog.getItemMeta();
 			QuestLog.updateQuestList(player, bm, qm, pm.getProfile(player));
 			qLog.setItemMeta(bm);
 			player.getInventory().setItem(QuestLog.getItemSlot(), qLog);
@@ -92,7 +92,7 @@ public class QuestLogListener implements Listener {
 		final Player player = event.getPlayer();
 		if(!QuestLog.isQuestLog(player.getInventory().getItem(QuestLog.getItemSlot()))) {
 			final ItemStack qLog = QuestLog.getQuestLogItem();
-			final BookMeta bm = (BookMeta) qLog.getItemMeta();
+			final BookMeta bm = (BookMeta)qLog.getItemMeta();
 			QuestLog.updateQuestList(player, bm, qm, pm.getProfile(player));
 			qLog.setItemMeta(bm);
 			player.getInventory().setItem(QuestLog.getItemSlot(), qLog);
@@ -119,10 +119,11 @@ public class QuestLogListener implements Listener {
 		updateLog(event.getPlayer(), event.getQuest(), -2, true);
 	}
 
-	private void updateLog(final Player player, final Quest quest, final int occassion, final boolean updateList) {
+	private void updateLog(final Player player, final Quest quest, final int occassion,
+			final boolean updateList) {
 		PlayerProfile prof = pm.getProfile(player);
 		QuestLog.updateQuestLog(player, quest, prof, lm.getLang(prof.getLanguage()),
-								occassion, qm, updateList);
+				occassion, qm, updateList);
 		player.sendMessage(ChatColor.GRAY + "Quest Log Updated.");
 	}
 }
