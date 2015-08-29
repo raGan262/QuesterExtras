@@ -1,0 +1,36 @@
+permission: questerextras.admin
+
+commands:
+    /qe help == base commands help
+    /qe help -d == all commands  help
+    /qe help <subcommand...> (-d) == custom help
+        example:
+            /qe help item -d == all item commands
+            /qe help item == base item commands
+            /qe help mob -d == all mob commands
+    /qe msg -p <player> <message> == colored player message (available to player and command block, not console)
+    /qe msg <radius> <message> == colored radius message (available to player and command block, not console)
+
+mob armor slots:
+    0 == hand
+    1 == feet
+    2 == legs
+    3 == chest
+    4 == head
+
+item type:
+    "this" == item in hand
+    item name
+    item ID
+
+objectives:
+    XMYTHKILL == mythic mobs kill objective
+    XMOBKILL == custom mob kill objective (with location)
+    XARROW == arrow hit objective
+
+events:
+    XDESPAWN == entity despawn event
+    XFILL == custom item inventory fill event (location "block" can be used to mark highlighted block)
+    XITEM == custom item event
+    XLOG == questlog message (message is appended to quest description in quest log on occasion)
+    XSPAWN == custom mob spawn event (can be random in specified area)

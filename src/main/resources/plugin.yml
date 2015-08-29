@@ -1,0 +1,10 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: raGan
+main: me.ragan262.questerextras.QrExtras
+depend: [Quester]
+softdepend: [MythicMobs]
+commands:
+  qe:
+    description: Main QuesterExtras command.

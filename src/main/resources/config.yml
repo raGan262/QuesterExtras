@@ -1,0 +1,7 @@
+# donator item is just like quester item, but it's never blocked on interact
+donator-item: false
+# quest log displays quest progress (experimental feature)
+quest-log:
+    enabled: false
+    # hotbar slot permanently occupied by quest log (0-8)
+    slot: 8
