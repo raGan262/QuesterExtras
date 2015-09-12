@@ -4,7 +4,7 @@ description: ${project.description}
 author: raGan
 main: me.ragan262.questerextras.QrExtras
 depend: [Quester]
-softdepend: [MythicMobs]
+softdepend: [MythicMobs, 'EpicBoss Gold Edition']
 commands:
   qe:
     description: Main QuesterExtras command.

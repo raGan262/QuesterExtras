@@ -15,6 +15,7 @@ import me.ragan262.questerextras.items.QuestLog;
 import me.ragan262.questerextras.listeners.*;
 import me.ragan262.questerextras.mobs.Mobs;
 import me.ragan262.questerextras.objectives.XarrowObjective;
+import me.ragan262.questerextras.objectives.XepicKillObjective;
 import me.ragan262.questerextras.objectives.XmobKillObjective;
 import me.ragan262.questerextras.objectives.XmythicKillObjective;
 import me.ragan262.questerextras.qevents.XdespawnQevent;
@@ -26,6 +27,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class QrExtras extends JavaPlugin {
@@ -47,6 +50,7 @@ public class QrExtras extends JavaPlugin {
 				XarrowObjective.class,
 				XmobKillObjective.class,
 				XmythicKillObjective.class,
+				XepicKillObjective.class,
 				XdespawnQevent.class,
 				XfillQevent.class,
 				XspawnQevent.class,
@@ -110,6 +114,10 @@ public class QrExtras extends JavaPlugin {
 		if(getServer().getPluginManager().getPlugin("MythicMobs") != null) {
 			getServer().getPluginManager().registerEvents(new MythicListener(), this);
 			getLogger().info("MythicMobs found and hooked.");
+		}
+		if(getServer().getPluginManager().getPlugin("EpicBoss Gold Edition") != null) {
+			getServer().getPluginManager().registerEvents(new EpicBossListener(), this);
+			getLogger().info("EpicBoss found and hooked.");
 		}
 		// reset disable
 		disable = false;
