@@ -1,0 +1,10 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: raGan
+main: QrExtras
+depend: [Quester]
+softdepend: [MythicMobs, 'EpicBoss Gold Edition', EpicBossRecoded]
+commands:
+  qe:
+    description: Main QuesterExtras command.

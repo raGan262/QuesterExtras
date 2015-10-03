@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.ragan262</groupId>
 	<artifactId>questerextras</artifactId>
-	<version>0.3</version>
+	<packaging>pom</packaging>
+	<version>0.4</version>
 	<name>QuesterExtras</name>
 	<description>Quester extension.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<libs.dir>${project.basedir}/lib</libs.dir>
 		<package.dir>${project.build.directory}</package.dir>
 		<package.name>${project.build.finalName}</package.name>
 	</properties>
@@ -28,6 +28,7 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.7.10-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>me.ragan262</groupId>
@@ -35,67 +36,25 @@
 			<version>0.7-5-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>mythicmobs</groupId>
-			<artifactId>mythicmobs</artifactId>
-			<version>2.1.0</version>
-			<scope>system</scope>
-			<systemPath>${libs.dir}/MythicMobs-2.1.0.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>epicboss</groupId>
-			<artifactId>epicboss</artifactId>
-			<version>0.4.0</version>
-			<scope>system</scope>
-			<systemPath>${libs.dir}/EpicBossGoldEdition-0.4.0.jar</systemPath>
-		</dependency>
 	</dependencies>
 
+	<modules>
+		<module>extras-ebr</module>
+		<module>plugin</module>
+	</modules>
+
 	<build>
-		<resources>
-			<resource>
-				<targetPath>.</targetPath>
-				<directory>${basedir}/src/main/resources/</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>plugin.yml</include>
-					<include>config.yml</include>
-					<include>docs.txt</include>
-				</includes>
-			</resource>
-			<!-- adding source code into final package -->
-			<resource>
-				<targetPath>./src</targetPath>
-				<directory>src/main/java</directory>
-			</resource>
-		</resources>
-
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>true</addMavenDescriptor>
-						<manifest>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-					<outputDirectory>${package.dir}</outputDirectory>
-					<finalName>${package.name}</finalName>
-				</configuration>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

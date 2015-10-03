@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>questerextras</artifactId>
+		<groupId>me.ragan262</groupId>
+		<version>0.4</version>
+	</parent>
+	<artifactId>questerextras-plugin</artifactId>
+
+	<properties>
+		<libs.dir>${project.basedir}/lib</libs.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>mythicmobs</groupId>
+			<artifactId>mythicmobs</artifactId>
+			<version>2.1.0</version>
+			<scope>system</scope>
+			<systemPath>${libs.dir}/MythicMobs-2.1.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>epicbossgold</groupId>
+			<artifactId>epicbossgold</artifactId>
+			<version>0.4.0</version>
+			<scope>system</scope>
+			<systemPath>${libs.dir}/EpicBossGoldEdition-0.4.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>me.ragan262</groupId>
+			<artifactId>questerextras-ebr</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<targetPath>.</targetPath>
+				<directory>${basedir}/src/main/resources/</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+					<include>config.yml</include>
+					<include>docs.txt</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+					<outputDirectory>${package.dir}</outputDirectory>
+					<finalName>${package.name}</finalName>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
