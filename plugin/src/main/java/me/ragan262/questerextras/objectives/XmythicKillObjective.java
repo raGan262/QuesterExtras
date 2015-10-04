@@ -33,7 +33,7 @@ public class XmythicKillObjective extends Objective {
 	
 	@Override
 	protected String show(int progress) {
-		return "Kill mythic mobs. (%a/%t)";
+		return "Kill mythic mobs. (" + progress + "/" + amount + ")";
 	}
 	
 	@Override

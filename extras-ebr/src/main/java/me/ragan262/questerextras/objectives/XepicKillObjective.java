@@ -33,7 +33,7 @@ public class XepicKillObjective extends Objective {
 	
 	@Override
 	protected String show(int progress) {
-		return "Kill epicboss mobs. (%a/%t)";
+		return "Kill epicboss mobs. (" + progress + "/" + amount + ")";
 	}
 	
 	@Override

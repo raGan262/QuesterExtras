@@ -6,14 +6,12 @@
 	<groupId>me.ragan262</groupId>
 	<artifactId>questerextras</artifactId>
 	<packaging>pom</packaging>
-	<version>0.4</version>
+	<version>0.4.1</version>
 	<name>QuesterExtras</name>
 	<description>Quester extension.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<package.dir>${project.build.directory}</package.dir>
-		<package.name>${project.build.finalName}</package.name>
 	</properties>
 
 	<repositories>

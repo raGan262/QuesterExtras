@@ -6,12 +6,14 @@
 	<parent>
 		<artifactId>questerextras</artifactId>
 		<groupId>me.ragan262</groupId>
-		<version>0.4</version>
+		<version>0.4.1</version>
 	</parent>
 	<artifactId>questerextras-plugin</artifactId>
 
 	<properties>
 		<libs.dir>${project.basedir}/lib</libs.dir>
+		<package.dir>${project.parent.build.directory}</package.dir>
+		<package.name>${project.parent.build.finalName}</package.name>
 	</properties>
 
 	<dependencies>

@@ -1,8 +1,8 @@
-name: ${project.name}
+name: ${project.parent.name}
 version: ${project.version}
-description: ${project.description}
+description: ${project.parent.description}
 author: raGan
-main: QrExtras
+main: me.ragan262.questerextras.QrExtras
 depend: [Quester]
 softdepend: [MythicMobs, 'EpicBoss Gold Edition', EpicBossRecoded]
 commands:
