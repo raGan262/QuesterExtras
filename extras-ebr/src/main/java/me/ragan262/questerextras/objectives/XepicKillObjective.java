@@ -33,7 +33,14 @@ public class XepicKillObjective extends Objective {
 	
 	@Override
 	protected String show(int progress) {
-		return "Kill epicboss mobs. (" + progress + "/" + amount + ")";
+		String bosses;
+		if(mobs.size() == 1) {
+			bosses = "boss named " + mobs.get(0);
+		}
+		else {
+			bosses = "bosses named: " + mobString;
+		}
+		return "Kill " + bosses + ". (" + progress + "/" + amount + ")";
 	}
 	
 	@Override
