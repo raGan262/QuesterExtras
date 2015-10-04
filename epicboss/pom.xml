@@ -7,29 +7,17 @@
 		<artifactId>questerextras</artifactId>
 		<groupId>me.ragan262</groupId>
 		<version>0.4.1</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<artifactId>questerextras-ebr</artifactId>
 
-	<properties>
-		<libs.dir>${project.basedir}/lib</libs.dir>
-	</properties>
+	<artifactId>questerextras-epicboss</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>epicbossreloaded</groupId>
-			<artifactId>epicbossreloaded</artifactId>
+			<groupId>epicbossrecoded</groupId>
+			<artifactId>epicbossrecoded</artifactId>
 			<version>1.3.2</version>
 			<scope>system</scope>
 			<systemPath>${libs.dir}/EpicBossRecoded.jar</systemPath>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>

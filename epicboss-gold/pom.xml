@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>questerextras</artifactId>
+		<groupId>me.ragan262</groupId>
+		<version>0.4.1</version>
+	</parent>
+
+	<artifactId>questerextras-epicboss-gold</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>epicbossgold</groupId>
+			<artifactId>epicbossgold</artifactId>
+			<version>0.4.0</version>
+			<scope>system</scope>
+			<systemPath>${libs.dir}/EpicBossGoldEdition-0.4.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>me.ragan262</groupId>
+			<artifactId>questerextras-epicboss</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+
+</project>

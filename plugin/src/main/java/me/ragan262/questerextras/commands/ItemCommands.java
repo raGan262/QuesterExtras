@@ -6,8 +6,8 @@ import me.ragan262.quester.commandmanager.annotations.CommandLabels;
 import me.ragan262.quester.commandmanager.annotations.NestedCommand;
 import me.ragan262.quester.exceptions.QuesterException;
 import me.ragan262.quester.utils.SerUtils;
-import me.ragan262.questerextras.items.*;
 import me.ragan262.questerextras.QrExtras;
+import me.ragan262.questerextras.items.*;
 import me.ragan262.questerextras.qevents.XfillQevent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -412,7 +412,7 @@ public class ItemCommands {
 		Qitem item = items.getItem(context.getInt(0));
 		StringBuilder errors = new StringBuilder();
 		boolean success = false;
-		Ench en = null;
+		Ench en;
 		for(int i = 1; i < context.length(); i++) {
 			if(context.getString(i).charAt(0) == '!') {
 				String s = context.getString(i).substring(1);
@@ -479,7 +479,7 @@ public class ItemCommands {
 		if(item instanceof Qpotion) {
 			StringBuilder errors = new StringBuilder();
 			boolean success = false;
-			PotionEffect eff = null;
+			PotionEffect eff;
 			for(int i = 1; i < context.length(); i++) {
 				if(context.getString(i).charAt(0) == '!') {
 					String s = context.getString(i).substring(1);
@@ -550,7 +550,7 @@ public class ItemCommands {
 	public void color(QuesterCommandContext context, CommandSender sender) throws QuesterException {
 		Qitem item = items.getItem(context.getInt(0));
 		if(item instanceof Qarmor) {
-			Color color = null;
+			Color color;
 			if(context.length() > 1) {
 				color = getColor(context.getString(1));
 				((Qarmor)item).setColor(color);
@@ -583,7 +583,7 @@ public class ItemCommands {
 	}
 	
 	public static PotionEffect getEffect(String s) {
-		PotionEffectType eff = null;
+		PotionEffectType eff;
 		int power = 0;
 		int duration = 0;
 		String[] ss = s.split(":");

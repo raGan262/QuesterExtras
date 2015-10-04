@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<libs.dir>${project.basedir}/lib</libs.dir>
 	</properties>
 
 	<repositories>
@@ -37,7 +38,9 @@
 	</dependencies>
 
 	<modules>
-		<module>extras-ebr</module>
+		<module>mythicmobs</module>
+		<module>epicboss</module>
+		<module>epicboss-gold</module>
 		<module>plugin</module>
 	</modules>
 
@@ -45,6 +48,7 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<inherited>true</inherited>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.0</version>
 					<configuration>

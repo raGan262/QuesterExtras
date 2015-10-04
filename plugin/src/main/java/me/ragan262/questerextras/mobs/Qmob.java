@@ -2,8 +2,8 @@ package me.ragan262.questerextras.mobs;
 
 import me.ragan262.quester.storage.StorageKey;
 import me.ragan262.quester.utils.SerUtils;
-import me.ragan262.questerextras.items.Qpotion;
 import me.ragan262.questerextras.items.Qitem;
+import me.ragan262.questerextras.items.Qpotion;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -163,7 +163,7 @@ public class Qmob {
 			}
 			EntityEquipment ee = e.getEquipment();
 			Qitem item = slots[0].item;
-			float chance = 0F;
+			float chance;
 			if(item != null) {
 				chance = slots[0].drop;
 				ee.setItemInHand(item.getItemStack());
