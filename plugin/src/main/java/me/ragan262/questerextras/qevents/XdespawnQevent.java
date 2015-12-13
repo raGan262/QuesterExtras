@@ -7,6 +7,7 @@ import me.ragan262.quester.commandmanager.exceptions.CommandException;
 import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.elements.Qevent;
 import me.ragan262.quester.storage.StorageKey;
+import me.ragan262.quester.utils.QLocation;
 import me.ragan262.quester.utils.SerUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -18,17 +19,17 @@ import org.bukkit.entity.Player;
 @QElement("XDESPAWN")
 public final class XdespawnQevent extends Qevent {
 	
-	private final Location min;
-	private final Location max;
+	private final QLocation min;
+	private final QLocation max;
 	private final EntityType entity;
 	
-	public XdespawnQevent(final EntityType ent, final Location loc1, final Location loc2) {
+	public XdespawnQevent(final EntityType ent, final QLocation loc1, final QLocation loc2) {
 		min =
-				new Location(loc1.getWorld(), Math.min(loc1.getX(), loc2.getX()), Math.min(
-						loc1.getY(), loc2.getY()), Math.min(loc1.getZ(), loc2.getZ()));
+				new QLocation(loc1.getWorldName(), Math.min(loc1.getX(), loc2.getX()), Math.min(
+						loc1.getY(), loc2.getY()), Math.min(loc1.getZ(), loc2.getZ()), 0, 0);
 		max =
-				new Location(loc1.getWorld(), Math.max(loc1.getX(), loc2.getX()), Math.max(
-						loc1.getY(), loc2.getY()), Math.max(loc1.getZ(), loc2.getZ()));
+				new QLocation(loc1.getWorldName(), Math.max(loc1.getX(), loc2.getX()), Math.max(
+						loc1.getY(), loc2.getY()), Math.max(loc1.getZ(), loc2.getZ()), 0, 0);
 		entity = ent;
 	}
 	
@@ -41,9 +42,9 @@ public final class XdespawnQevent extends Qevent {
 	
 	@Override
 	protected void run(final Player player, final Quester plugin) {
-		final Chunk ch1 = min.getChunk();
-		final Chunk ch2 = max.getChunk();
-		final World world = min.getWorld();
+		final Chunk ch1 = min.getLocation().getChunk();
+		final Chunk ch2 = max.getLocation().getChunk();
+		final World world = min.getLocation().getWorld();
 		final int minX = Math.min(ch1.getX(), ch2.getX());
 		final int maxX = Math.max(ch1.getX(), ch2.getX());
 		final int minZ = Math.min(ch1.getZ(), ch2.getZ());
@@ -83,12 +84,12 @@ public final class XdespawnQevent extends Qevent {
 	@Command(min = 2, max = 3, usage = "{<location1>} {<location2>} {[entity]}")
 	public static Qevent fromCommand(final QuesterCommandContext context) throws CommandException {
 		EntityType ent = null;
-		Location loc1 = null;
-		Location loc2 = null;
+		QLocation loc1 = null;
+		QLocation loc2 = null;
 		try {
 			loc1 = SerUtils.getLoc(context.getPlayer(), context.getString(0));
 			loc2 = SerUtils.getLoc(context.getPlayer(), context.getString(1));
-			if(loc1.getWorld().getUID() != loc2.getWorld().getUID()) {
+			if(!loc1.getWorldName().equalsIgnoreCase(loc2.getWorldName())) {
 				throw new IllegalArgumentException("Worlds are not the same.");
 			}
 		}
@@ -109,8 +110,8 @@ public final class XdespawnQevent extends Qevent {
 	
 	protected static Qevent load(final StorageKey key) {
 		EntityType ent = null;
-		Location min = null;
-		Location max = null;
+		QLocation min = null;
+		QLocation max = null;
 		try {
 			min = SerUtils.deserializeLocString(key.getString("minlocation", ""));
 			max = SerUtils.deserializeLocString(key.getString("maxlocation", ""));

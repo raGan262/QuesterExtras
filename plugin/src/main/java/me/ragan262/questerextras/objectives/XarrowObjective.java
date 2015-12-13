@@ -6,6 +6,7 @@ import me.ragan262.quester.commandmanager.exceptions.CommandException;
 import me.ragan262.quester.elements.Objective;
 import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.storage.StorageKey;
+import me.ragan262.quester.utils.QLocation;
 import me.ragan262.quester.utils.SerUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,10 +18,10 @@ public class XarrowObjective extends Objective {
 	private final Material material;
 	private final byte data;
 	private final int amount;
-	private final Location location;
+	private final QLocation location;
 	private final int range;
 	
-	public XarrowObjective(final int amt, final Material mat, final int dat, final Location loc,
+	public XarrowObjective(final int amt, final Material mat, final int dat, final QLocation loc,
 			final int rng) {
 		amount = amt;
 		material = mat;
@@ -66,15 +67,12 @@ public class XarrowObjective extends Objective {
 		if(block.getType() != material) {
 			return false;
 		}
-		if(data >= 0 && data != block.getData()) {
-			return false;
-		}
-		return true;
+		return !(data >= 0 && data != block.getData());
 	}
 	
 	public boolean checkLocation(final Location loc) {
 		if(location != null && loc != null) {
-			return location.distanceSquared(loc) <= range * range;
+			return location.getLocation().distanceSquared(loc) <= range * range;
 		}
 		return true;
 	}
@@ -98,7 +96,7 @@ public class XarrowObjective extends Objective {
 			throw new CommandException(context.getSenderLang().get("ERROR_CMD_ITEM_NUMBERS"));
 		}
 		int rng = 0;
-		Location loc = null;
+		QLocation loc = null;
 		if(context.length() > 2) {
 			loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
 			if(context.length() > 3) {
@@ -113,7 +111,7 @@ public class XarrowObjective extends Objective {
 	}
 	
 	protected static Objective load(final StorageKey key) {
-		Location loc = null;
+		QLocation loc = null;
 		int rng = 0;
 		Material mat;
 		int dat, amt = 1;
