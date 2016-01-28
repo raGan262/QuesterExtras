@@ -76,6 +76,22 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>me.ragan262:${project.parent.artifactId}-epicboss</include>
+									<include>me.ragan262:${project.parent.artifactId}-epicboss-gold</include>
+									<include>me.ragan262:${project.parent.artifactId}-mythicmobs</include>
+								</includes>
+							</artifactSet>
+							<filters>
+								<filter>
+									<includes>
+										<include>me/ragan262/questerextras/**</include>
+									</includes>
+								</filter>
+							</filters>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
