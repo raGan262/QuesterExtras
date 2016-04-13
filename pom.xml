@@ -4,10 +4,10 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.ragan262</groupId>
-	<artifactId>questerextras-loc</artifactId>
+	<artifactId>questerextras</artifactId>
 	<packaging>pom</packaging>
-	<version>0.4.1</version>
-	<name>QuesterExtras-loc</name>
+	<version>0.5.0</version>
+	<name>QuesterExtras</name>
 	<description>Quester extension.</description>
 
 	<properties>
@@ -26,13 +26,13 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.7.9-R0.2</version>
+			<version>1.9-R0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>me.ragan262</groupId>
-			<artifactId>quester-loc</artifactId>
-			<version>0.7-5-SNAPSHOT</version>
+			<artifactId>quester</artifactId>
+			<version>1.0.1</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
