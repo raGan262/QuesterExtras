@@ -4,12 +4,12 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>questerextras</artifactId>
+		<artifactId>questerextras-loc</artifactId>
 		<groupId>me.ragan262</groupId>
 		<version>0.4.1</version>
 	</parent>
 
-	<artifactId>questerextras-plugin</artifactId>
+	<artifactId>${project.parent.artifactId}-plugin</artifactId>
 
 	<properties>
 		<package.dir>${project.parent.build.directory}</package.dir>
@@ -19,17 +19,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>me.ragan262</groupId>
-			<artifactId>questerextras-epicboss</artifactId>
+			<artifactId>${project.parent.artifactId}-epicboss</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>me.ragan262</groupId>
-			<artifactId>questerextras-epicboss-gold</artifactId>
+			<artifactId>${project.parent.artifactId}-epicboss-gold</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>me.ragan262</groupId>
-			<artifactId>questerextras-mythicmobs</artifactId>
+			<artifactId>${project.parent.artifactId}-mythicmobs</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

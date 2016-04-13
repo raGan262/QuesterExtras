@@ -8,6 +8,7 @@ import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.elements.Qevent;
 import me.ragan262.quester.exceptions.QuesterException;
 import me.ragan262.quester.storage.StorageKey;
+import me.ragan262.quester.utils.QLocation;
 import me.ragan262.quester.utils.SerUtils;
 import me.ragan262.questerextras.QrExtras;
 import me.ragan262.questerextras.items.Qitem;
@@ -22,9 +23,9 @@ import org.bukkit.inventory.ItemStack;
 public final class XfillQevent extends Qevent {
 	
 	private final Qitem item;
-	private final Location location;
+	private final QLocation location;
 	
-	public XfillQevent(final Qitem item, final Location loc) {
+	public XfillQevent(final Qitem item, final QLocation loc) {
 		this.item = item;
 		location = loc;
 	}
@@ -43,7 +44,7 @@ public final class XfillQevent extends Qevent {
 	
 	@Override
 	protected void run(final Player player, final Quester plugin) {
-		final InventoryHolder ih = XfillQevent.getInventoryHolder(location);
+		final InventoryHolder ih = XfillQevent.getInventoryHolder(location.getLocation());
 		if(ih == null) {
 			QrExtras.log.warning("XFILL: Invalid container location.");
 			return;
@@ -64,9 +65,9 @@ public final class XfillQevent extends Qevent {
 	public static Qevent fromCommand(final QuesterCommandContext context)
 			throws QuesterException, CommandException {
 		final Qitem item = QrExtras.plugin.items.getItem(context.getInt(0)).getCopy();
-		Location loc = SerUtils.getLoc(context.getPlayer(), context.getString(1),
+		QLocation loc = SerUtils.getLoc(context.getPlayer(), context.getString(1),
 				context.getSenderLang());
-		if(XfillQevent.getInventoryHolder(loc) == null) {
+		if(XfillQevent.getInventoryHolder(loc.getLocation()) == null) {
 			throw new CommandException("Invalid container location.");
 		}
 		if(context.length() > 2) {
@@ -80,10 +81,10 @@ public final class XfillQevent extends Qevent {
 	
 	protected static Qevent load(final StorageKey key) {
 		Qitem item = null;
-		Location loc = null;
+		QLocation loc = null;
 		if(key.getString("container", "") != "") {
 			loc = SerUtils.deserializeLocString(key.getString("container", ""));
-			if(getInventoryHolder(loc) == null) {
+			if(getInventoryHolder(loc.getLocation()) == null) {
 				QrExtras.log.warning("XFILL: Invalid container location.");
 			}
 		}

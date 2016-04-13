@@ -8,6 +8,7 @@ import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.exceptions.ObjectiveException;
 import me.ragan262.quester.exceptions.QuesterException;
 import me.ragan262.quester.storage.StorageKey;
+import me.ragan262.quester.utils.QLocation;
 import me.ragan262.quester.utils.SerUtils;
 import me.ragan262.questerextras.QrExtras;
 import me.ragan262.questerextras.items.Qitem;
@@ -24,10 +25,10 @@ public final class XmobKillObjective extends Objective {
 	
 	private final Qmob mob;
 	private final int amount;
-	private final Location location;
+	private final QLocation location;
 	private final int range;
 	
-	private XmobKillObjective(final Qmob mob, final int amt, final Location loc, final int rng)
+	private XmobKillObjective(final Qmob mob, final int amt, final QLocation loc, final int rng)
 			throws QuesterException {
 		this.mob = mob;
 		if(mob == null) {
@@ -88,8 +89,8 @@ public final class XmobKillObjective extends Objective {
 		if(location == null) {
 			return true;
 		}
-		if(loc.getWorld().getName().equalsIgnoreCase(location.getWorld().getName())) {
-			return loc.distanceSquared(location) < range * range;
+		if(loc.getWorld().getName().equalsIgnoreCase(location.getWorldName())) {
+			return loc.distanceSquared(location.getLocation()) < range * range;
 		}
 		else {
 			return false;
@@ -107,7 +108,7 @@ public final class XmobKillObjective extends Objective {
 			throws CommandException, QuesterException {
 		final Qmob mob = QrExtras.plugin.mobs.getMob(context.getInt(0)).getCopy();
 		final int amt = context.getInt(1);
-		Location loc = null;
+		QLocation loc = null;
 		int rng = 5;
 		if(context.length() > 2) {
 			loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
@@ -124,7 +125,7 @@ public final class XmobKillObjective extends Objective {
 	protected static Objective load(final StorageKey key) {
 		int rng = 0, amt = 1;
 		Qmob mob = null;
-		Location loc = null;
+		QLocation loc = null;
 		try {
 			loc = SerUtils.deserializeLocString(key.getString("location", ""));
 			rng = key.getInt("range", 5);

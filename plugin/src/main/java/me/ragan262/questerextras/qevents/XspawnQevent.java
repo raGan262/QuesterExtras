@@ -8,6 +8,7 @@ import me.ragan262.quester.elements.QElement;
 import me.ragan262.quester.elements.Qevent;
 import me.ragan262.quester.exceptions.QuesterException;
 import me.ragan262.quester.storage.StorageKey;
+import me.ragan262.quester.utils.QLocation;
 import me.ragan262.quester.utils.SerUtils;
 import me.ragan262.quester.utils.Util;
 import me.ragan262.questerextras.QrExtras;
@@ -18,12 +19,12 @@ import org.bukkit.entity.Player;
 @QElement("XSPAWN")
 public final class XspawnQevent extends Qevent {
 	
-	private final Location location;
+	private final QLocation location;
 	private final Qmob mob;
 	private final int range;
 	private final int amount;
 	
-	public XspawnQevent(final Location loc, final int rng, final Qmob mob, final int amt) {
+	public XspawnQevent(final QLocation loc, final int rng, final Qmob mob, final int amt) {
 		location = loc;
 		range = rng;
 		this.mob = mob.getCopy();
@@ -47,7 +48,7 @@ public final class XspawnQevent extends Qevent {
 			temp = player.getLocation();
 		}
 		else {
-			temp = location;
+			temp = location.getLocation();
 		}
 		for(int i = 0; i < amount; i++) {
 			mob.spawnAt(Util.move(temp, range));
@@ -71,7 +72,7 @@ public final class XspawnQevent extends Qevent {
 			throws CommandException, QuesterException {
 		final Qmob mob = QrExtras.plugin.mobs.getMob(context.getInt(0));
 		final int amt = context.getInt(1);
-		final Location loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
+		final QLocation loc = SerUtils.getLoc(context.getPlayer(), context.getString(2));
 		int rng = 0;
 		if(amt < 1) {
 			throw new CommandException(context.getSenderLang().get("ERROR_CMD_AMOUNT_POSITIVE"));
@@ -88,7 +89,7 @@ public final class XspawnQevent extends Qevent {
 	protected static Qevent load(final StorageKey key) {
 		int rng = 0, amt = 1;
 		Qmob mob = null;
-		Location loc = null;
+		QLocation loc = null;
 		try {
 			loc = SerUtils.deserializeLocString(key.getString("location", ""));
 			rng = key.getInt("range", 0);
